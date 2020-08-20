@@ -1,29 +1,56 @@
-import React from 'react';
-import { Link } from "react-router-dom"
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { ptBR } from "@material-ui/core/locale";
+
+import store from "./store";
+
+const DefaultMaterialize = React.lazy(() =>
+  import("./containers/Layout/DefaultLayout")
+);
+
+const theme = createMuiTheme(
+  {
+    palette: {
+      primary: {
+        main: "#174B7A",
+      },
+      secondary: {
+        main: "#103454",
+      },
+      success: {
+        main: "#4DBD74",
+      },
+      error: {
+        main: "#cc1010",
+      },
+    },
+    status: {
+      danger: "orange",
+    },
+  },
+  ptBR
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>React Electron Boilerplate</p>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Link className="App-link" to="/about">Link to the About Page</Link>
-      </header>
-      
-    </div>
+    <Provider store={store}>
+      <HashRouter>
+        <ThemeProvider theme={theme}>
+          <React.Suspense fallback={<div>Carregando...</div>}>
+            <Switch>
+              <Route exact path="/login" render={(props) => <div>Pog</div>} />
+              <Route
+                path="/"
+                name="Home"
+                render={(props) => <DefaultMaterialize {...props} />}
+              />
+            </Switch>
+          </React.Suspense>
+        </ThemeProvider>
+      </HashRouter>
+    </Provider>
   );
 }
 
