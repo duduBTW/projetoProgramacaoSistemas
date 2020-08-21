@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Paper, Typography } from "@material-ui/core";
 
 import FormBody from "./FormBody";
+import EstoqueInfo from "../Epi/CriarFicha/EstoqueInfo";
 
 export default function ArrayForm({
   schema,
@@ -46,6 +47,8 @@ export default function ArrayForm({
                 customValue={item}
               />
             </Grid>
+            <br />
+            <EstoqueInfo />
           </Paper>
         );
       })}
