@@ -17,6 +17,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import SideNav from "./sideNav";
 
 import { useSelector, useDispatch } from "react-redux";
+import { Card, LinearProgress } from "@material-ui/core";
 // import { getOpen } from "../../services/LayoutStorage";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DefaultLayout({ user, history }) {
+function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
   const classes = useStyles();
   // const history = useHistory();
   // const [open, setOpen] = useState(getOpen());
@@ -194,6 +195,18 @@ function DefaultLayout({ user, history }) {
         {downloading.length
           ? downloading.map((item) => <h1>{item.title}</h1>)
           : null}
+        {downloadinOn && (
+          <div style={{ position: "fixed", bottom: 40, right: 40 }}>
+            <Card style={{ padding: 20, width: 200 }}>
+              <div>Baixando: </div>
+              <br />
+              <LinearProgress
+                variant="determinate"
+                value={Math.round((Number(totalBaixado) / Number(total)) * 100)}
+              />{" "}
+            </Card>
+          </div>
+        )}
         {/* <button type="button" onClick={addDownload}>
           Adicionar teste 
         </button> */}

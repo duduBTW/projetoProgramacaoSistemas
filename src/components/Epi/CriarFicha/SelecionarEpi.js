@@ -37,6 +37,9 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedEpis, setSelectedEpis] = React.useState([]);
+  const [estoqueInfo, setEstoqueInfo] = React.useState({
+    99: "uwu",
+  });
   const { register, control, errors, handleSubmit, setValue } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -61,12 +64,35 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
   };
 
   const epiAutocomplete = (ca, index) => {
-    instance.get(`/safety/epi/epiinformation?EpiCa=${ca}`).then((response) => {
-      console.log("response.data", response.data);
-      setValue(`items[${index}].descricao`, response.data.NomeEquipamento);
-      setValue(`items[${index}].vencimento`, response.data.DataValidade);
-      setValue(`items[${index}].vencimento`, response.data.DataValidade);
-    });
+    if (ca)
+      instance
+        .get(`/safety/epi/epiinformation?EpiCa=${ca}`)
+        .then((response) => {
+          setValue(`items[${index}].descricao`, response.data.NomeEquipamento, {
+            shouldValidate: true,
+          });
+          setValue(`items[${index}].vencimento`, response.data.DataValidade, {
+            shouldValidate: true,
+          });
+          setValue(`items[${index}].vencimento`, response.data.DataValidade, {
+            shouldValidate: true,
+          });
+
+          if (response.data.temEstoque) {
+            setEstoqueInfo({
+              ...estoqueInfo,
+              [index]: {
+                quantidade: response.data.epeinfos.EPIQUANTIDADE,
+                quantidadeMin: response.data.epeinfos.EPIQUANTIDADEMIN,
+              },
+            });
+          } else {
+            setEstoqueInfo({
+              ...estoqueInfo,
+              [index]: null,
+            });
+          }
+        });
   };
 
   return (
@@ -79,6 +105,7 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
         errors={errors}
         buttons={buttons(() => {})}
         onSubmit={nextEpi}
+        estoqueInfo={estoqueInfo}
         schema={[
           {
             lg: 4,
@@ -93,27 +120,42 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
             lg: 2,
             name: "recebimento",
             label: "Data Recebimento",
+            rules: {
+              required: "Campo obrigatório",
+            },
           },
           {
             lg: 2,
             name: "vencimento",
             label: "Validade",
+            rules: {
+              required: "Campo obrigatório",
+            },
           },
           // { blank: true, lg: 2 },
           {
             lg: 2,
             name: "quantidade",
             label: "Quantidade",
+            rules: {
+              required: "Campo obrigatório",
+            },
           },
           {
             lg: 2,
             name: "troca",
             label: "Dias Para Troca",
+            rules: {
+              required: "Campo obrigatório",
+            },
           },
           {
             lg: 12,
             name: "descricao",
             label: "Descrição Equipamento",
+            rules: {
+              required: "Campo obrigatório",
+            },
           },
           {
             hidden: true,

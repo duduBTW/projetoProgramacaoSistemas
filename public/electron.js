@@ -10,6 +10,9 @@ function createWindow() {
     width: 1200,
     height: 800,
     icon: "",
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   mainWindow.loadURL(
@@ -20,6 +23,10 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.webContents.openDevTools();
   mainWindow.on("closed", () => (mainWindow = null));
+}
+
+app.on("ready", () => {
+  createWindow();
 
   mainWindow.webContents.session.on(
     "will-download",
@@ -27,7 +34,11 @@ function createWindow() {
       // Set the save path, making Electron not to prompt a save dialog.
       // item.setSavePath("/tmp/save.pdf");
       console.log("Downloading");
-      webContents.send("start-download", item.getTotalBytes());
+      webContents.send("start-download", {
+        total: item.getTotalBytes(),
+        name: item.getFilename(),
+      });
+      // item.cancel()
       item.on("updated", (event, state) => {
         if (state === "interrupted") {
           console.log("Download is interrupted but can be resumed");
@@ -36,10 +47,13 @@ function createWindow() {
             console.log("Download is paused");
           } else {
             console.log(`Received bytes: ${item.getReceivedBytes()}`);
+            webContents.send("total-downloaded", item.getReceivedBytes());
           }
         }
       });
       item.once("done", (event, state) => {
+        webContents.send("completed", state);
+
         if (state === "completed") {
           console.log("Download successfully");
         } else {
@@ -48,9 +62,7 @@ function createWindow() {
       });
     }
   );
-}
-
-app.on("ready", createWindow);
+});
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();

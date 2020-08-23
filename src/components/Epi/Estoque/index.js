@@ -4,6 +4,7 @@ import Crud from "../../Crud";
 import { LinearProgress } from "@material-ui/core";
 
 const schema = [
+  { label: "C.A", content: "EPECA" },
   { label: "Epi", content: "EPIDESCRICAO" },
   { label: "Quantidade", content: "EPIQUANTIDADE" },
   { label: "Quantidade Mínima", content: "EPIQUANTIDADEMIN" },

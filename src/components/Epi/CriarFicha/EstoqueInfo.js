@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EstoqueInfo({}) {
+export default function EstoqueInfo({ info }) {
   const classes = useStyles();
 
   return (
@@ -54,7 +54,7 @@ export default function EstoqueInfo({}) {
           <div className={clsx(classes.columnMetade)}>
             <center>
               <Typography color="secondary" variant="h3">
-                10
+                {info.quantidade}
               </Typography>
               <Typography variant="subtitle2">Disponível no estoque</Typography>
             </center>
@@ -62,7 +62,7 @@ export default function EstoqueInfo({}) {
           <div className={clsx(classes.columnMetade, classes.helper)}>
             <center>
               <Typography color="primary" variant="h3">
-                11
+                {info.quantidadeMin}
               </Typography>
               <Typography variant="subtitle2">Estoque Mínimo</Typography>
             </center>

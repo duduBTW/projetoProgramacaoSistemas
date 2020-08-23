@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextFieldWithError from "../Input/InputWithError";
 import { Grid } from "@material-ui/core";
 import { InputMasked } from "../Input/InputMasked";
+import { Controller } from "react-hook-form";
+import SelectWithError from "../Input/SelectWithError";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,45 +49,72 @@ export default function FormBody({
         lg={schemaItem.lg}
       >
         {!schemaItem.blank ? (
-          schemaItem.masked === true ? (
-            <InputMasked
-              classStyle={classes.paper}
-              style={{ width: "100%" }}
-              name={name}
-              label={schemaItem.label}
-              errors={errors[name]}
-              control={control}
-              mask={schemaItem.mask}
-              rules={rules}
-              onChange={
-                schemaItem.onChange
-                  ? (data) =>
-                      schemaItem.onChange(
-                        data,
-                        `items[${index}].${schemaItem.name}`
-                      )
-                  : () => {}
-              }
-            />
-          ) : (
-            <TextFieldWithError
-              style={{ width: "100%" }}
-              errors={
-                index !== ""
-                  ? errors.items && errors.items[index][schemaItem.name]
-                  : errors[name]
-              }
-              inputRef={register(schemaItem.rules)}
-              name={name}
-              label={schemaItem.label}
-              variant="outlined"
-              onBlur={
-                schemaItem.onChange
-                  ? (data) => schemaItem.onChange(data, index)
-                  : () => {}
-              }
-            />
-          )
+          <>
+            {schemaItem.masked && (
+              <InputMasked
+                classStyle={classes.paper}
+                style={{ width: "100%" }}
+                name={name}
+                label={schemaItem.label}
+                errors={errors[name]}
+                control={control}
+                mask={schemaItem.mask}
+                rules={schemaItem.rules}
+                onChange={
+                  schemaItem.onChange
+                    ? (data) =>
+                        schemaItem.onChange(
+                          data,
+                          `items[${index}].${schemaItem.name}`
+                        )
+                    : () => {}
+                }
+              />
+            )}
+
+            {schemaItem.select && (
+              <SelectWithError
+                FormControlProps={{
+                  className: classes.paper,
+                  variant: "outlined",
+                }}
+                name={name}
+                label={schemaItem.label}
+                rules={schemaItem.rules}
+                Controller={Controller}
+                control={control}
+                errors={errors[name]}
+              >
+                {schemaItem.options}
+                {/* {schemaItem.options.map((item, index) => (
+                  <MenuItem key={index} value={item.NUCCODIGO}>
+                    {item.NUCFANTASIA} - {item.NUCRAZAOSOCIAL}
+                  </MenuItem>
+                ))} */}
+              </SelectWithError>
+            )}
+
+            {!schemaItem.masked && !schemaItem.select && (
+              <TextFieldWithError
+                style={{ width: "100%" }}
+                errors={
+                  index !== ""
+                    ? errors.items && errors.items[index][schemaItem.name]
+                    : errors[name]
+                }
+                inputRef={register(schemaItem.rules)}
+                name={name}
+                label={schemaItem.label}
+                variant="outlined"
+                type={schemaItem.type || "text"}
+                onBlur={
+                  schemaItem.onChange
+                    ? (data) => schemaItem.onChange(data, index)
+                    : () => {}
+                }
+              />
+            )}
+          </>
         ) : null}
       </Grid>
     );

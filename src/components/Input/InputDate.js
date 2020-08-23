@@ -12,40 +12,31 @@ export default function InputDate({
   name,
   control,
   rules,
+  errors,
 }) {
   return (
     <Controller
       as={
         <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="dd/MM/yyyy"
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
+          clearable
+          autoOk
+          format="DD/MM/YYYY"
+          views={["year", "month", "date"]}
+          inputVariant="outlined"
+          margin="dense"
+          InputAdornmentProps={{ position: "start" }}
+          error={errors[name]}
         />
       }
-      onChange={([e]) => {
-        if (returnRaw) {
-          onChange({
-            e,
-            valueRaw: e.target.value.replace(/\D/g, ""),
-          });
-          return e.target.value.replace(/\D/g, "");
-        } else {
-          onChange({ e });
-          return e.target.value;
-        }
-      }}
-      control={control}
       name={name}
+      // defaultValue={myCustomObject?.opened_at}
       rules={{
         ...rules,
         // validate: {
         //   inputTelRequired: isValidField,
         // },
       }}
+      control={control}
     />
   );
 }

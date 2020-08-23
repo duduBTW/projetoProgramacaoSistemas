@@ -13,6 +13,7 @@ export default function ArrayForm({
   handleSubmit,
   buttons,
   onSubmit,
+  estoqueInfo,
 }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,7 +49,9 @@ export default function ArrayForm({
               />
             </Grid>
             <br />
-            <EstoqueInfo />
+            {console.log(`estoqueInfo[${index}]`, estoqueInfo[index])}
+            {console.log(`estoqueInfo[${index}]`, estoqueInfo)}
+            {estoqueInfo[index] && <EstoqueInfo info={estoqueInfo[index]} />}
           </Paper>
         );
       })}

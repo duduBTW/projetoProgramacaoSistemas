@@ -17,8 +17,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 
-import estados from "../../placeholderData/Estados.json";
-import cidades from "../../placeholderData/Cidades.json";
 import { instance } from "../../../services/api";
 
 const drawerWidth = 300;
