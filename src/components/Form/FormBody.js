@@ -5,6 +5,15 @@ import { Grid } from "@material-ui/core";
 import { InputMasked } from "../Input/InputMasked";
 import { Controller } from "react-hook-form";
 import SelectWithError from "../Input/SelectWithError";
+import InputDate from "../Input/InputDate";
+
+import DateFnsUtils from "@date-io/date-fns";
+
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -94,7 +103,18 @@ export default function FormBody({
               </SelectWithError>
             )}
 
-            {!schemaItem.masked && !schemaItem.select && (
+            {schemaItem.date && (
+              <InputDate
+                classProp={classes.paper}
+                name={name}
+                label={schemaItem.label}
+                rules={schemaItem.rules}
+                control={control}
+                errors={errors[name]}
+              />
+            )}
+
+            {!schemaItem.masked && !schemaItem.select && !schemaItem.date && (
               <TextFieldWithError
                 style={{ width: "100%" }}
                 errors={

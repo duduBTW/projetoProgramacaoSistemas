@@ -13,7 +13,7 @@ const convertArrayToObject = (array, key) => {
   return array.reduce((obj, item) => {
     return {
       ...obj,
-      [item[key]]: "",
+      [item[key]]: null,
     };
   }, initialValue);
 };
@@ -30,6 +30,8 @@ export default function Form({
   const { register, handleSubmit, control, errors, setValue, reset } = useForm({
     defaultValues,
   });
+
+  console.log("defaultValues", defaultValues);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>

@@ -11,17 +11,17 @@ export default function SelecionarEmpresa({
 }) {
   const [companys, setCompanys] = React.useState(null);
   React.useEffect(() => {
+    console.log("acessData.AccessToken", acessData.AccessToken);
     instance
-      .get(
-        "/users/company?companyid=0",
-        {},
-        {
+      .get("/users/company?companyid=0", {
+        headers: {
           Authorization: acessData.AccessToken,
-        }
-      )
+        },
+      })
       .then((response) => {
         setCompanys(response.data);
-      });
+      })
+      .catch((response) => console.log("response.data", response));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

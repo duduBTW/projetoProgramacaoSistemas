@@ -2,6 +2,8 @@ import React from "react";
 import { instance } from "../../../services/api";
 import Crud from "../../Crud";
 import { LinearProgress } from "@material-ui/core";
+import ModalAdicionar from "../../Crud/ModalAdicionar";
+import EstoqueAdicionar from "./EstoqueAdicionar";
 
 const schema = [
   { label: "C.A", content: "EPECA" },
@@ -13,6 +15,9 @@ const schema = [
 
 export default function Estoque() {
   const [content, setContent] = React.useState();
+
+  const [openModal, setOpenModal] = React.useState(false);
+
   React.useEffect(() => {
     instance
       .get("/safety/epi/stock?EpiCa=&MinOnly=&Type=&Name=&Cnpj=")
@@ -22,7 +27,28 @@ export default function Estoque() {
       });
   }, []);
   return content ? (
-    <Crud schema={schema} edit={true} content={content} title="Estoque" />
+    <div>
+      <ModalAdicionar
+        fullScreen
+        cancelar={() => setOpenModal(false)}
+        openModal={openModal}
+      >
+        {(buttons) => {
+          return (
+            <>
+              <EstoqueAdicionar />
+            </>
+          );
+        }}
+      </ModalAdicionar>
+      <Crud
+        onNewClick={() => setOpenModal(true)}
+        schema={schema}
+        edit={true}
+        content={content}
+        title="Estoque"
+      />
+    </div>
   ) : (
     <LinearProgress />
   );
