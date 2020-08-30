@@ -3,8 +3,10 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 
 import FormBody from "./FormBody";
 import EstoqueInfo from "../Epi/CriarFicha/EstoqueInfo";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
-export default function ArrayForm({
+const ArrayForm = ({
   schema,
   fields,
   register,
@@ -14,7 +16,9 @@ export default function ArrayForm({
   buttons,
   onSubmit,
   estoqueInfo,
-}) {
+  remove,
+  setActiveStep,
+}) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {fields.map((item, index) => {
@@ -23,8 +27,27 @@ export default function ArrayForm({
         return (
           <Paper
             elevation={4}
-            style={{ padding: "30px 20px", margin: "20px 0px", width: "100%" }}
+            style={{
+              padding: "30px 20px",
+              margin: "20px 0px",
+              width: "100%",
+              position: "relative",
+            }}
           >
+            {remove && (
+              <div style={{ position: "absolute", top: 20, right: 20 }}>
+                <IconButton
+                  onClick={() => {
+                    remove(index);
+                    if (setActiveStep && fields.length == 1) setActiveStep(0);
+                  }}
+                  aria-label="delete"
+                  size="small"
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              </div>
+            )}
             {item.EPIDESCRICAO && (
               <Grid
                 style={{ padding: "0px 0px 15px 0px" }}
@@ -59,4 +82,5 @@ export default function ArrayForm({
       {buttons}
     </form>
   );
-}
+};
+export default React.memo(ArrayForm);

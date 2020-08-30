@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -14,6 +14,7 @@ import FormularioFuncionario from "../../components/Epi/CriarFicha/FormularioFun
 import ConfirmarDados from "../../components/Epi/CriarFicha/ConfirmarDados";
 import SelecionarEpi from "../../components/Epi/CriarFicha/SelecionarEpi";
 import Sucesso from "../../components/Epi/CriarFicha/Sucesso";
+import AdicionarEpi from "../../components/Epi/CriarFicha/AdicionarEpi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +36,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ["Dados do funcionário", "Selecionar EPI's", "Confirmar Dados"];
+  return [
+    "Dados do funcionário",
+    "Selecionar EPI's",
+    "Preencher Informações EPI's",
+    "Confirmar Dados",
+  ];
 }
 
 function getStepContent(
@@ -45,7 +51,10 @@ function getStepContent(
   nextDados,
   funcionarioData,
   nextEpi,
-  epis
+  epis,
+  formDataEpi,
+  formDataArrayEpi,
+  nextEpiData
 ) {
   switch (step) {
     case 0:
@@ -57,8 +66,27 @@ function getStepContent(
         />
       );
     case 1:
-      return <SelecionarEpi nextEpi={nextEpi} buttons={getButtons} />;
+      return (
+        <AdicionarEpi
+          addItem={(items) => {
+            // setActiveStep(1);
+            nextEpiData(items);
+            // append(items);
+            // console.log("items", items);
+          }}
+          // buttons={() => getButtons(nextEpiData)}
+        />
+      );
     case 2:
+      return (
+        <SelecionarEpi
+          nextEpi={nextEpi}
+          buttons={getButtons}
+          {...formDataEpi}
+          {...formDataArrayEpi}
+        />
+      );
+    case 3:
       return (
         <ConfirmarDados
           buttons={getButtons}
@@ -78,6 +106,12 @@ export default function CriarFicha() {
   const formData = useForm({
     defaultValues: funcionarioData,
   });
+  const formDataEpi = useForm();
+  const formDataArrayEpi = useFieldArray({
+    control: formDataEpi.control,
+    name: "items",
+  });
+
   const [epis, setEpis] = React.useState(null);
   const steps = getSteps();
 
@@ -93,6 +127,12 @@ export default function CriarFicha() {
   const nextEpi = (dados) => {
     console.log("nextEpi", dados);
     setEpis(dados.items);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const nextEpiData = (dados) => {
+    console.log("dados", dados);
+    formDataArrayEpi.append(dados);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -143,7 +183,10 @@ export default function CriarFicha() {
                 nextDados,
                 funcionarioData,
                 nextEpi,
-                epis
+                epis,
+                formDataEpi,
+                formDataArrayEpi,
+                nextEpiData
               )}
             </StepContent>
           </Step>

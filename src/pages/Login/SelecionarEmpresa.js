@@ -49,13 +49,13 @@ export default function SelecionarEmpresa({
   };
 
   return !companys ? (
-    <center style={{ margin: "200px 0px" }}>
+    <center style={{ margin: "15vh 0px" }}>
       <Typography variant="h5"> Carregando empresas... </Typography>
       <br />
       <CircularProgress />
     </center>
   ) : (
-    <div style={{ marginTop: 200 }}>
+    <div style={{ marginTop: "15vh" }}>
       <Form
         schema={[
           {
@@ -72,7 +72,7 @@ export default function SelecionarEmpresa({
           },
         ]}
         onSubmit={loginEmpresa}
-        buttons={<div style={{ marginTop: 200 }}>{buttons}</div>}
+          buttons={<div style={{ marginTop: "15vh" }}>{buttons}</div>}
       />
     </div>
   );

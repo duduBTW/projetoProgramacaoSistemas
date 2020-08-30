@@ -8,8 +8,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+import AllInboxIcon from "@material-ui/icons/AllInbox";
+import DescriptionIcon from "@material-ui/icons/Description";
 
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -17,7 +23,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import SideNav from "./sideNav";
 
 import { useSelector, useDispatch } from "react-redux";
-import { Card, LinearProgress } from "@material-ui/core";
+import { Card, LinearProgress, Backdrop } from "@material-ui/core";
+import ModalAdicionar from "../../components/Crud/ModalAdicionar";
+import EstoqueAdicionar from "../../components/Epi/Estoque/EstoqueAdicionar";
+import CriarFicha from "../../pages/Epi/CriarFicha";
 // import { getOpen } from "../../services/LayoutStorage";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +71,19 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(0),
     },
   },
+  speedDial: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  noMaxWidth: {
+    maxWidth: "none",
+  },
+  tooltip: {
+    marginTop: "-.01rem",
+    fontSize: "1.5rem",
+    color: "red",
+  },
 }));
 
 function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
@@ -69,6 +91,11 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
   // const history = useHistory();
   // const [open, setOpen] = useState(getOpen());
   const [open, setOpen] = useState(true);
+
+  const [helperOpen, setHelperOpen] = useState(false);
+  const [estoqueOpen, setEstoqueOpen] = useState(false);
+  const [fichaOpen, setFichaOpen] = useState(false);
+
   const [resized, setResized] = useState(true);
   const [showSideNav, setShowSideNav] = useState(true);
   const [auth, setAuth] = useState(false);
@@ -77,6 +104,19 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
   const [anchorEl, setAnchorEl] = useState([]);
   const downloading = useSelector((state) => state.downloadsList);
   const dispatch = useDispatch();
+
+  const actions = [
+    {
+      icon: <AllInboxIcon />,
+      name: "Estoque",
+      onClick: () => setEstoqueOpen((estO) => !estO),
+    },
+    {
+      icon: <DescriptionIcon />,
+      name: "Ficha",
+      onClick: () => setFichaOpen((fichaO) => !fichaO),
+    },
+  ];
 
   // const addDownload = () => {
   //   console.log("uwu");
@@ -207,10 +247,61 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
             </Card>
           </div>
         )}
+        <SpeedDial
+          ariaLabel="SpeedDial tooltip example"
+          className={classes.speedDial}
+          // hidden={hidden}
+          icon={<SpeedDialIcon />}
+          onClose={() => setHelperOpen(false)}
+          onOpen={() => setHelperOpen(true)}
+          open={helperOpen}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              tooltipOpen
+              TooltipClasses={classes}
+              onClick={() => {
+                setHelperOpen(false);
+                action.onClick();
+              }}
+            />
+          ))}
+        </SpeedDial>
         {/* <button type="button" onClick={addDownload}>
           Adicionar teste 
         </button> */}
       </main>
+      <ModalAdicionar
+        fullScreen
+        cancelar={() => setEstoqueOpen(false)}
+        openModal={estoqueOpen}
+        title="Adicionar Estoque"
+      >
+        {(buttons) => {
+          return (
+            <>
+              <EstoqueAdicionar />
+            </>
+          );
+        }}
+      </ModalAdicionar>
+      <ModalAdicionar
+        fullScreen
+        cancelar={() => setFichaOpen(false)}
+        openModal={fichaOpen}
+        title="Adicionar Estoque"
+      >
+        {(buttons) => {
+          return (
+            <>
+              <CriarFicha />
+            </>
+          );
+        }}
+      </ModalAdicionar>
     </div>
   );
 }

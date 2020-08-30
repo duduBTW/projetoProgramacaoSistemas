@@ -8,7 +8,13 @@ import {
   DialogActions,
   Button,
   DialogContent,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
 } from "@material-ui/core";
+
+import CloseIcon from "@material-ui/icons/Close";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,9 +43,34 @@ export default function ModalAdicionar({
       // keepMounted
       onClose={cancelar}
     >
-      {title && (
-        <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
-      )}
+      {title ? (
+        fullScreen ? (
+          <AppBar
+            style={{
+              position: "relative",
+              height: 50,
+              justifyContent: "center",
+            }}
+          >
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={cancelar}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                {title}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        ) : (
+          <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
+        )
+      ) : null}
+
       <DialogContent>
         {children(
           <DialogActions style={{ padding: "8px 0px" }}>

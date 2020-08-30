@@ -39,7 +39,7 @@ export default function Formulario({ buttons, handleNext, setLoading }) {
             type: "password",
           },
         ]}
-        buttons={<div style={{ marginTop: 200 }}>{buttons}</div>}
+        buttons={<div style={{ marginTop: "15vh" }}>{buttons}</div>}
         onSubmit={login}
       />
     </div>

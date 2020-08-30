@@ -24,6 +24,7 @@
     "moment": "^2.27.0",
     "mui-rte": "^1.24.0",
     "react": "^16.11.0",
+    "react-animated-list": "^0.1.4",
     "react-dom": "^16.11.0",
     "react-hook-form": "^6.4.0",
     "react-input-mask": "^2.0.4",

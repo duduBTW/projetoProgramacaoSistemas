@@ -47,7 +47,7 @@ function getStepContent(
   switch (step) {
     case 0:
       return (
-        <div style={{ margin: "200px 0px 0px 0px" }}>
+        <div style={{ margin: "15vh 0px 0px 0px" }}>
           <Formulario
             setLoading={setLoading}
             buttons={buttons}

@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
+    // maxHeight: "90vh"
   },
 }));
 

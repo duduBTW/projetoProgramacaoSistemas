@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatedList } from "react-animated-list";
 import {
   TableCell,
   TableContainer,
@@ -42,13 +43,29 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     cursor: "pointer",
   },
+  fullWith: {
+    display: "table-row-group",
+    width: "100%",
+    // flexBasis: 1,
+    background: "blue",
+  },
 }));
+
+function resolve(obj, path) {
+  path = path.split(".");
+  var current = obj;
+  while (path.length) {
+    if (typeof current !== "object") return undefined;
+    current = current[path.shift()];
+  }
+  return current;
+}
 
 export default function Crud({
   content,
   title,
   schema,
-  onNewClick = () => {},
+  onNewClick,
   onEditClick = () => {},
   onDeleteClick = () => {},
   edit = false,
@@ -63,18 +80,20 @@ export default function Crud({
   return (
     <Paper elevation={2} className={classes.rootContent}>
       <div className={classes.button}>
-        <Typography variant="h5"> {title} </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            onNewClick();
-          }}
-          // onClick={() => setOpenModal(true)}
-          startIcon={<AddIcon />}
-        >
-          Novo
-        </Button>
+        {title && <Typography variant="h5"> {title} </Typography>}
+        {onNewClick && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              onNewClick();
+            }}
+            // onClick={() => setOpenModal(true)}
+            startIcon={<AddIcon />}
+          >
+            Novo
+          </Button>
+        )}
       </div>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
@@ -91,7 +110,7 @@ export default function Crud({
             </TableRow>
           </TableHead>
           <TableBody>
-            {content.slice(page * 12, page * 12 + 12).map((item, index) => (
+            {content.slice(page * 10, page * 10 + 10).map((item, index) => (
               <TableRow
                 className={edit ? classes.tableRow : {}}
                 // onClick={(e) =>
@@ -106,7 +125,9 @@ export default function Crud({
                 {schema.map((schameItem) => (
                   <>
                     <TableCell align="left">
-                      {item[schameItem.content]}
+                      {/* {console.log(item[schameItem.content])} */}
+                      {/* {console.log(schameItem.content)} */}
+                      {resolve(item, schameItem.content)}
                     </TableCell>
                   </>
                 ))}

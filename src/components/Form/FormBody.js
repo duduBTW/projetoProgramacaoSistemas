@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormBody({
+function FormBody({
   schema,
   register,
   control,
@@ -140,3 +140,5 @@ export default function FormBody({
     );
   });
 }
+
+export default React.memo(FormBody);

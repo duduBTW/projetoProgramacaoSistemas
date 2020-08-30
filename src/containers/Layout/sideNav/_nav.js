@@ -27,6 +27,10 @@ export default {
       icon: "fa fa-bell",
       children: [
         {
+          name: "Ficha",
+          url: "/ficha",
+        },
+        {
           name: "Criar Ficha",
           url: "/criar",
         },

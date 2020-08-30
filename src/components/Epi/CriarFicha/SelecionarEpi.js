@@ -33,35 +33,46 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function SelecionarEpi({ buttons, nextEpi }) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [selectedEpis, setSelectedEpis] = React.useState([]);
+export default function SelecionarEpi({
+  buttons,
+  nextEpi,
+  fields,
+  append,
+  remove,
+  register,
+  control,
+  errors,
+  handleSubmit,
+  setValue,
+}) {
+  // const classes = useStyles();
+  // const [open, setOpen] = React.useState(false);
+  // const [selectedEpis, setSelectedEpis] = React.useState([]);
   const [estoqueInfo, setEstoqueInfo] = React.useState({
     99: "uwu",
   });
-  const { register, control, errors, handleSubmit, setValue } = useForm();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "items",
-  });
+  // const { register, control, errors, handleSubmit, setValue } = useForm();
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "items",
+  // });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const addItem = (checked) => {
-    handleClose();
-    append({});
-    console.log("checked", checked);
-    append(checked);
+  // const addItem = (checked) => {
+  // handleClose();
+  // append({});
+  // console.log("checked", checked);
+  // append(checked);
 
-    // setSelectedEpis([...selectedEpis, ...checked]);
-  };
+  // setSelectedEpis([...selectedEpis, ...checked]);
+  // };
 
   const epiAutocomplete = (ca, index) => {
     if (ca)
@@ -174,16 +185,16 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
           },
         ]}
       />
-      <Button
+      {/* <Button
         style={{ width: "100%" }}
         variant="contained"
         color="primary"
         onClick={handleClickOpen}
       >
         Mais Epis
-      </Button>
+      </Button> */}
 
-      <Dialog
+      {/* <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
@@ -213,7 +224,7 @@ export default function SelecionarEpi({ buttons, nextEpi }) {
           handleClose={handleClose}
           addItem={addItem}
         />
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }

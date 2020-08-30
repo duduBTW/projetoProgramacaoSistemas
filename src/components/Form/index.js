@@ -18,12 +18,14 @@ const convertArrayToObject = (array, key) => {
   }, initialValue);
 };
 
-export default function Form({
+function Form({
   defaultValues,
   onSubmit,
   schema,
   buttons,
   title,
+  classForm,
+  classBody,
 }) {
   defaultValues = { ...convertArrayToObject(schema, "name"), ...defaultValues };
 
@@ -34,7 +36,7 @@ export default function Form({
   console.log("defaultValues", defaultValues);
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form className={classForm} noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         {title && (
           <Grid
@@ -49,6 +51,7 @@ export default function Form({
           </Grid>
         )}
         <FormBody
+          className={classBody}
           schema={schema}
           register={register}
           control={control}
@@ -59,3 +62,5 @@ export default function Form({
     </form>
   );
 }
+
+export default React.memo(Form);

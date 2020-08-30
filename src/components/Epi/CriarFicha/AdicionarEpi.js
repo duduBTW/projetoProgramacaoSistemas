@@ -87,12 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdicionarEpi({
+const AdicionarEpi = ({
   setSelectedEpis,
   selectedEpis,
   handleClose = () => {},
   addItem,
-}) {
+  buttons
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -261,7 +262,7 @@ export default function AdicionarEpi({
         )}
       </Paper>
 
-      {checked.length ? (
+      {checked.length && !buttons ? (
         <Button
           style={{ width: "100%" }}
           variant="contained"
@@ -271,7 +272,9 @@ export default function AdicionarEpi({
         >
           Adicionar
         </Button>
-      ) : null}
+      ) : checked.length && buttons ? buttons(() => addItem(checked)) : null}
     </>
   );
 }
+
+export default React.memo(AdicionarEpi)

@@ -11,7 +11,7 @@ const DefaultMaterialize = React.lazy(() =>
   import("./containers/Layout/DefaultLayout")
 );
 
-const { ipcRenderer } = window.require("electron");
+// const { ipcRenderer } = window.require("electron");
 // const { ipcRenderer, remote } = require("electron");
 
 const theme = createMuiTheme(
@@ -42,23 +42,23 @@ function App() {
   const [logged, setLogged] = React.useState(true);
   const [totalBaixado, setTotalBaixado] = React.useState(0);
   const [downloadOn, setDownloadOn] = React.useState(false);
-  React.useEffect(() => {
-    ipcRenderer.on("start-download", (event, message) => {
-      setTotal(message.total);
-      setDownloadOn(true);
-    });
+  // React.useEffect(() => {
+  //   ipcRenderer.on("start-download", (event, message) => {
+  //     setTotal(message.total);
+  //     setDownloadOn(true);
+  //   });
 
-    ipcRenderer.on("total-downloaded", (event, message) => {
-      setTotalBaixado(message);
+  //   ipcRenderer.on("total-downloaded", (event, message) => {
+  //     setTotalBaixado(message);
 
-      // event.sender.send("cancelDownload")
-    });
+  //     // event.sender.send("cancelDownload")
+  //   });
 
-    ipcRenderer.on("completed", (event, message) => {
-      // setTotalBaixado(message);
-      setDownloadOn(false);
-    });
-  }, []);
+  //   ipcRenderer.on("completed", (event, message) => {
+  //     // setTotalBaixado(message);
+  //     setDownloadOn(false);
+  //   });
+  // }, []);
   return (
     <Provider store={store}>
       <HashRouter>
