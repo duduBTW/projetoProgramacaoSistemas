@@ -1,8 +1,10 @@
 import React from "react";
+import clsx from "clsx";
 import image from "../../assets/backgroundLogin.png";
 import logo from "../../assets/ic_main.png";
-import { Paper, makeStyles, Typography } from "@material-ui/core";
+import { Paper, makeStyles, Typography, Zoom } from "@material-ui/core";
 import Formulario from "./LoginForm";
+import FormularioRegister from "./FormularioRegister";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -30,6 +32,37 @@ const useStyles = makeStyles((theme) => ({
     margin: "50px 0px 50px 50px",
     borderRadius: "5px 0px 0px 0px",
     position: "relative",
+    transition: theme.transitions.create(["flex-basis", "width", "opacity"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  extraContentLeft: {
+    flexBasis: "35%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    // border: `2px solid ${theme.palette.divider}`,
+    background: "rgb(23, 75, 122, 0.7)",
+    margin: "50px 50px 50px 0px",
+    borderRadius: "0px 5px 5px 0px",
+    position: "relative",
+    transition: theme.transitions.create(["flex-basis", "width", "opacity"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  extraContentShift: {
+    flexBasis: "0%",
+    opacity: "0",
+    margin: "0px",
+    // width: "100px",
+    // marginLeft: drawerWidth,
+    transition: theme.transitions.create(["flex-basis", "width", "opacity"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   login: {
     flexBasis: "65%",
@@ -38,11 +71,42 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     position: "relative",
     // maxHeight: "90vh"
+    transition: theme.transitions.create(["flex-basis", "width", "maxHeight"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  loginShift: {
+    flexBasis: "65%",
+    // width: "100px",
+    // marginLeft: drawerWidth,
+    transition: theme.transitions.create(["flex-basis", "width", "maxHeight"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  logo: {
+    position: "absolute",
+    top: 24,
+    right: 24,
+    transition: theme.transitions.create(["right", "top", "position", "let"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  logoShift: {
+    left: 24,
+    transition: theme.transitions.create(["right", "top", "position", "let"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
 }));
 
 export default function Login({ history, setLogged }) {
   const classes = useStyles();
+  const [onRegister, setOnRegister] = React.useState(false);
+
   return (
     <div className={classes.container}>
       {/* <img
@@ -57,29 +121,79 @@ export default function Login({ history, setLogged }) {
         alt=""
       /> */}
       <div elevation={7} className={classes.mainCard}>
-        <div elevation={2} className={classes.extraContent}>
+        <div
+          // elevation={2}
+          className={clsx(classes.extraContent, {
+            [classes.extraContentShift]: onRegister,
+          })}
+        >
           {/* <img
             style={{ position: "absolute", top: 20, left: 20 }}
             src={logo}
             alt=""
           /> */}
 
-          <Typography style={{ color: "white" }} variant="h2">
-            Bem vindo
-          </Typography>
-          <br />
-          <Typography style={{ color: "white" }} variant="subtitle1">
-            Preencha as informações para continuar
-          </Typography>
+          {!onRegister && (
+            <>
+              {" "}
+              <Typography style={{ color: "white" }} variant="h2">
+                Login
+              </Typography>
+              <br />
+              <Typography style={{ color: "white" }} variant="subtitle1">
+                Preencha as informações para continuar
+              </Typography>{" "}
+            </>
+          )}
         </div>
-        <Paper elevation={7} className={classes.login}>
+
+        <Paper
+          elevation={7}
+          className={clsx(classes.login, {
+            [classes.loginShift]: onRegister,
+          })}
+        >
           <img
-            style={{ position: "absolute", top: 24, right: 24 }}
+            className={clsx(classes.logo, {
+              [classes.logoShift]: onRegister,
+            })}
             src={logo}
             alt=""
           />
-          <Formulario setLogged={setLogged} history={history} />
+          {!onRegister && (
+            <Zoom in={!onRegister}>
+              <Formulario
+                register={() => setOnRegister(true)}
+                setLogged={setLogged}
+                history={history}
+              />
+            </Zoom>
+          )}
+
+          {onRegister && (
+            <Zoom in={onRegister}>
+              <FormularioRegister login={() => setOnRegister(false)} />
+            </Zoom>
+          )}
         </Paper>
+        <div
+          className={clsx(classes.extraContentLeft, {
+            [classes.extraContentShift]: !onRegister,
+          })}
+        >
+          {onRegister && (
+            <>
+              {" "}
+              <Typography style={{ color: "white" }} variant="h2">
+                Registro
+              </Typography>
+              <br />
+              <Typography style={{ color: "white" }} variant="subtitle1">
+                Preencha as informações para continuar
+              </Typography>{" "}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

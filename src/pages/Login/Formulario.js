@@ -1,8 +1,14 @@
 import React from "react";
 import Form from "../../components/Form";
 import { instance } from "../../services/api";
+import { Link } from "@material-ui/core";
 
-export default function Formulario({ buttons, handleNext, setLoading }) {
+export default function Formulario({
+  buttons,
+  handleNext,
+  setLoading,
+  register,
+}) {
   const login = (data) => {
     setLoading(true);
     instance
@@ -42,6 +48,10 @@ export default function Formulario({ buttons, handleNext, setLoading }) {
         buttons={<div style={{ marginTop: "15vh" }}>{buttons}</div>}
         onSubmit={login}
       />
+      <center>
+        {" "}
+        <Link onClick={register}> Não possui uma conta? </Link>{" "}
+      </center>
     </div>
   );
 }

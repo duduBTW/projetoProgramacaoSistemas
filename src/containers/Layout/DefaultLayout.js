@@ -264,8 +264,8 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
               tooltipOpen
               TooltipClasses={classes}
               onClick={() => {
-                setHelperOpen(false);
                 action.onClick();
+                setHelperOpen(false);
               }}
             />
           ))}
@@ -292,7 +292,7 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
         fullScreen
         cancelar={() => setFichaOpen(false)}
         openModal={fichaOpen}
-        title="Adicionar Estoque"
+        title="Criar Ficha"
       >
         {(buttons) => {
           return (

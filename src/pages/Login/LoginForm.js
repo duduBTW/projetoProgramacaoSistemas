@@ -42,7 +42,8 @@ function getStepContent(
   handleFinish,
   handleNextUserForm,
   response,
-  setLoading
+  setLoading,
+  register
 ) {
   switch (step) {
     case 0:
@@ -52,6 +53,7 @@ function getStepContent(
             setLoading={setLoading}
             buttons={buttons}
             handleNext={handleNextUserForm}
+            register={register}
           />
         </div>
       );
@@ -74,7 +76,7 @@ function getStepContent(
   }
 }
 
-export default function LoginForm({ history, setLogged }) {
+export default function LoginForm({ history, setLogged, register }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [reponse, setReponse] = React.useState(null);
@@ -135,7 +137,8 @@ export default function LoginForm({ history, setLogged }) {
                 handleFinish,
                 handleNextUserForm,
                 reponse,
-                setLoading
+                setLoading,
+                register
               )}
             </StepContent>
           </Step>
