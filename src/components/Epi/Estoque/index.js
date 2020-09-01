@@ -1,10 +1,10 @@
 import React from "react";
 import { instance } from "../../../services/api";
-import Crud from "../../Crud";
+// import Crud from "../../Crud";
 import { LinearProgress, Button } from "@material-ui/core";
 import ModalAdicionar from "../../Crud/ModalAdicionar";
 import EstoqueAdicionar from "./EstoqueAdicionar";
-import Search from "../../Search";
+import { Search, Crud } from "material-ui-generic-components";
 import AddIcon from "@material-ui/icons/Add";
 
 const schema = [
@@ -89,13 +89,6 @@ export default function Estoque() {
           </Button>
         }
       />
-      {/* <Crud
-        onNewClick={() => setOpenModal(true)}
-        schema={schema}
-        edit={true}
-        content={content}
-        title="Estoque"
-      /> */}
     </div>
   );
 }

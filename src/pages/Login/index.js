@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import image from "../../assets/backgroundLogin.png";
 import logo from "../../assets/ic_main.png";
+import LoginImg from "../../assets/Login.gif";
 import { Paper, makeStyles, Typography, Zoom } from "@material-ui/core";
 import Formulario from "./LoginForm";
 import FormularioRegister from "./FormularioRegister";
@@ -106,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Login({ history, setLogged }) {
   const classes = useStyles();
   const [onRegister, setOnRegister] = React.useState(false);
+  const [loginRed, setLoginRed] = React.useState(false);
 
   return (
     <div className={classes.container}>
@@ -120,81 +122,89 @@ export default function Login({ history, setLogged }) {
         src={image}
         alt=""
       /> */}
-      <div elevation={7} className={classes.mainCard}>
-        <div
-          // elevation={2}
-          className={clsx(classes.extraContent, {
-            [classes.extraContentShift]: onRegister,
-          })}
-        >
-          {/* <img
-            style={{ position: "absolute", top: 20, left: 20 }}
-            src={logo}
-            alt=""
-          /> */}
-
-          {!onRegister && (
-            <>
-              {" "}
-              <Typography style={{ color: "white" }} variant="h2">
-                Login
-              </Typography>
-              <br />
-              <Typography style={{ color: "white" }} variant="subtitle1">
-                Preencha as informações para continuar
-              </Typography>{" "}
-            </>
-          )}
-        </div>
-
-        <Paper
-          elevation={7}
-          className={clsx(classes.login, {
-            [classes.loginShift]: onRegister,
-          })}
-        >
-          <img
-            className={clsx(classes.logo, {
-              [classes.logoShift]: onRegister,
+      {loginRed ? (
+        <img
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+          }}
+          src={LoginImg}
+        />
+      ) : (
+        <div elevation={7} className={classes.mainCard}>
+          <div
+            // elevation={2}
+            className={clsx(classes.extraContent, {
+              [classes.extraContentShift]: onRegister,
             })}
-            src={logo}
-            alt=""
-          />
-          {!onRegister && (
-            <Zoom in={!onRegister}>
-              <Formulario
-                register={() => setOnRegister(true)}
-                setLogged={setLogged}
-                history={history}
-              />
-            </Zoom>
-          )}
+          >
+            {!onRegister && (
+              <>
+                {" "}
+                <Typography style={{ color: "white" }} variant="h2">
+                  Login
+                </Typography>
+                <br />
+                <Typography style={{ color: "white" }} variant="subtitle1">
+                  Preencha as informações para continuar
+                </Typography>{" "}
+              </>
+            )}
+          </div>
 
-          {onRegister && (
-            <Zoom in={onRegister}>
-              <FormularioRegister login={() => setOnRegister(false)} />
-            </Zoom>
-          )}
-        </Paper>
-        <div
-          className={clsx(classes.extraContentLeft, {
-            [classes.extraContentShift]: !onRegister,
-          })}
-        >
-          {onRegister && (
-            <>
-              {" "}
-              <Typography style={{ color: "white" }} variant="h2">
-                Registro
-              </Typography>
-              <br />
-              <Typography style={{ color: "white" }} variant="subtitle1">
-                Preencha as informações para continuar
-              </Typography>{" "}
-            </>
-          )}
+          <Paper
+            elevation={7}
+            className={clsx(classes.login, {
+              [classes.loginShift]: onRegister,
+            })}
+          >
+            <img
+              className={clsx(classes.logo, {
+                [classes.logoShift]: onRegister,
+              })}
+              src={logo}
+              alt=""
+            />
+            {!onRegister && (
+              <Zoom in={!onRegister}>
+                <Formulario
+                  register={() => setOnRegister(true)}
+                  setLogged={setLogged}
+                  setLoginRed={setLoginRed}
+                  history={history}
+                />
+              </Zoom>
+            )}
+
+            {onRegister && (
+              <Zoom in={onRegister}>
+                <FormularioRegister login={() => setOnRegister(false)} />
+              </Zoom>
+            )}
+          </Paper>
+          <div
+            className={clsx(classes.extraContentLeft, {
+              [classes.extraContentShift]: !onRegister,
+            })}
+          >
+            {onRegister && (
+              <>
+                {" "}
+                <Typography style={{ color: "white" }} variant="h2">
+                  Registro
+                </Typography>
+                <br />
+                <Typography style={{ color: "white" }} variant="subtitle1">
+                  Preencha as informações para continuar
+                </Typography>{" "}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

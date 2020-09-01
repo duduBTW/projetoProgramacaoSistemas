@@ -1,5 +1,4 @@
 import React from "react";
-import { AnimatedList } from "react-animated-list";
 import {
   TableCell,
   TableContainer,

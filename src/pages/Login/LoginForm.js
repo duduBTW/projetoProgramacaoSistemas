@@ -76,7 +76,12 @@ function getStepContent(
   }
 }
 
-export default function LoginForm({ history, setLogged, register }) {
+export default function LoginForm({
+  history,
+  setLogged,
+  register,
+  setLoginRed,
+}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [reponse, setReponse] = React.useState(null);
@@ -90,8 +95,12 @@ export default function LoginForm({ history, setLogged, register }) {
   };
 
   const handleFinish = (token) => {
-    setLogged(true);
-    history.push("/inicio");
+    setLoginRed(true);
+
+    setTimeout(() => {
+      setLogged(true);
+      history.push("/inicio");
+    }, 2000);
   };
 
   const handleBack = () => {
