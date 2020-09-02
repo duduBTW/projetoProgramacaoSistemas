@@ -6,6 +6,7 @@ import ModalAdicionar from "../../Crud/ModalAdicionar";
 import EstoqueAdicionar from "./EstoqueAdicionar";
 import { Search, Crud } from "material-ui-generic-components";
 import AddIcon from "@material-ui/icons/Add";
+import { useHistory } from "react-router-dom";
 
 const schema = [
   { label: "C.A", content: "EPECA" },
@@ -20,6 +21,7 @@ export default function Estoque() {
   const [loading, setLoading] = React.useState(false);
 
   const [openModal, setOpenModal] = React.useState(false);
+  const history = useHistory();
 
   // React.useEffect(() => {
   //   instance
@@ -62,6 +64,7 @@ export default function Estoque() {
         search={search}
         content={content}
         edit={true}
+        // onClick={() => history.push("/estoque/2")}
         fieldsSearchMain={[
           {
             lg: 12,
@@ -78,15 +81,26 @@ export default function Estoque() {
           { label: "Nome", name: "EPINOME" },
         ]}
         extraButtons={
-          <Button
-            startIcon={<AddIcon />}
-            // className={classes.button}
-            onClick={() => setOpenModal(true)}
-            variant="contained"
-            color="primary"
-          >
-            Novo
-          </Button>
+          <>
+            <Button
+              startIcon={<AddIcon />}
+              // className={classes.button}
+              onClick={() => setOpenModal(true)}
+              variant="contained"
+              color="primary"
+            >
+              Novo
+            </Button>
+            <Button
+              startIcon={<AddIcon />}
+              // className={classes.button}
+              onClick={() => history.push("/epi/estoque/2")}
+              variant="contained"
+              color="primary"
+            >
+              Pog
+            </Button>
+          </>
         }
       />
     </div>

@@ -6,6 +6,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
+import { ButtonBase } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   columnMetade: {
     flexBasis: "50%",
+    padding: 20,
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
@@ -27,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
   },
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,
+  },
+  paper: {
+    "&:hover": {
+      background: theme.palette.action.hover,
+    },
   },
 }));
 
@@ -69,6 +76,68 @@ export default function EstoqueInfo({ info }) {
           </div>
         </AccordionDetails>
       </Accordion>
+    </div>
+  );
+}
+
+export function EstoqueDetails({ info }) {
+  const classes = useStyles();
+  return (
+    <div style={{ display: "flex" }}>
+      <div className={clsx(classes.columnMetade)}>
+        <center>
+          <Typography color="secondary" variant="h3">
+            {info.quantidade}
+          </Typography>
+          <Typography variant="subtitle2">Disponível no estoque</Typography>
+        </center>
+      </div>
+      <div className={clsx(classes.columnMetade, classes.helper)}>
+        <center>
+          <Typography color="primary" variant="h3">
+            {info.quantidadeMin}
+          </Typography>
+          <Typography variant="subtitle2">Estoque Mínimo</Typography>
+        </center>
+      </div>
+    </div>
+  );
+}
+
+export function EstoqueDetailsEditable({
+  info,
+  onQuantidadeClick,
+  onQuantidadeMInClick,
+}) {
+  const classes = useStyles();
+  return (
+    <div style={{ display: "flex" }}>
+      <ButtonBase
+        onClick={onQuantidadeClick}
+        className={clsx(classes.columnMetade, classes.paper)}
+      >
+        <div>
+          <center>
+            <Typography color="secondary" variant="h3">
+              {info.quantidade}
+            </Typography>
+            <Typography variant="subtitle2">Disponível no estoque</Typography>
+          </center>
+        </div>
+      </ButtonBase>
+      <ButtonBase
+        onClick={onQuantidadeMInClick}
+        className={clsx(classes.columnMetade, classes.helper, classes.paper)}
+      >
+        <div>
+          <center>
+            <Typography color="primary" variant="h3">
+              {info.quantidadeMin}
+            </Typography>
+            <Typography variant="subtitle2">Estoque Mínimo</Typography>
+          </center>
+        </div>
+      </ButtonBase>
     </div>
   );
 }

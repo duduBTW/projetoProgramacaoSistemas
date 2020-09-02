@@ -5,6 +5,7 @@ const Inicio = React.lazy(() => import("../../pages/Inicio"));
 const Ficha = React.lazy(() => import("../../components/Epi/Ficha"));
 const CriarFicha = React.lazy(() => import("../../pages/Epi/CriarFicha"));
 const Estoque = React.lazy(() => import("../../pages/Epi/Estoque"));
+const EpiItem = React.lazy(() => import("../../pages/Epi/EpiItem"));
 const Model = React.lazy(() => import("../../pages/Epi/Model"));
 
 const routes = [
@@ -40,8 +41,15 @@ const routes = [
   {
     path: "/epi/estoque",
     name: "Estoque",
-    exact: false,
+    exact: true,
     component: Estoque,
+    privateRoute: true,
+  },
+  {
+    path: "/epi/estoque/:id",
+    name: "Estoque Item",
+    exact: true,
+    component: EpiItem,
     privateRoute: true,
   },
   {

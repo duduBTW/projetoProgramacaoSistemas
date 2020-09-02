@@ -24,6 +24,9 @@ export default function Formulario({
           handleNext({ ...response.data, ...data });
         }
         console.log("response.data", response.data);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   };
   return (
