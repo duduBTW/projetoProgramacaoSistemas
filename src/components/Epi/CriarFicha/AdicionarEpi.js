@@ -18,6 +18,8 @@ import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 
 import { instance } from "../../../services/api";
+import { useFetch } from "services/hook.js/useFetch";
+import EpiDetales from "./EpiDetales";
 
 const drawerWidth = 300;
 
@@ -92,38 +94,42 @@ const AdicionarEpi = ({
   selectedEpis,
   handleClose = () => {},
   addItem,
-  buttons
+  buttons,
 }) => {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState([]);
-  const [epiTypes, setEpiTypes] = React.useState(null);
-  const [epiItems, setEpiItems] = React.useState();
+  // const [epiItems, setEpiItems] = React.useState();
+  let epiItems = undefined;
 
-  React.useEffect(() => {
-    instance.get("/safety/epi/types").then((response) => {
-      console.log("response.data", response.data);
-      setEpiTypes(response.data);
-    });
-  }, []);
+  const { data } = useFetch("/safety/epi/types");
+  // const [epiTypes, setEpiTypes] = React.useState(null);
+  // React.useEffect(() => {
+  //   instance.get("/safety/epi/types").then((response) => {
+  //     console.log("response.data", response.data);
+  //     setEpiTypes(response.data);
+  //   });
+  // }, []);
 
   const handleToggle = (value) => () => {
     setChecked([...checked, value]);
   };
 
   const handleDrawer = (value) => {
-    instance
-      .get("/safety/epi/items", {
-        params: {
-          EpiType: value,
-        },
-      })
-      .then((response) => {
-        console.log("response.data", response.data);
-        setEpiItems(response.data);
-        setOpen(value);
-      });
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // epiItems = useFetch(`/safety/epi/types?EpiType=${value}`).data;
+    setOpen(value);
+    // instance
+    //   .get("/safety/epi/items", {
+    //     params: {
+    //       EpiType: value,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log("response.data", response.data);
+    //     setEpiItems(response.data);
+    //     setOpen(value);
+    //   });
   };
 
   return (
@@ -136,9 +142,9 @@ const AdicionarEpi = ({
           })}
           elevation={3}
         >
-          {epiTypes ? (
+          {data ? (
             <List>
-              {epiTypes.map((epiType, index) => (
+              {data.map((epiType, index) => (
                 <div key={index}>
                   <ListItem
                     selected={epiType.EPITIPO === open}
@@ -169,13 +175,19 @@ const AdicionarEpi = ({
           )}
         </Paper>
         {open && (
+          <EpiDetales
+            value={open}
+            checked={checked}
+            handleToggle={handleToggle}
+          />
+        )}
+        {/* {open && (
           <Paper
             className={clsx(classes.appBar, {
               [classes.appBarShift]: !open,
             })}
             elevation={3}
           >
-            {/* <Typography variant="h3"> {} </Typography> */}
             <List>
               {epiItems.map((epiItem, index) => {
                 const labelId = `checkbox-list-label-${epiItem.EPIID}`;
@@ -204,14 +216,13 @@ const AdicionarEpi = ({
                     <ListItemText
                       id={labelId}
                       primary={epiItem.EPIDESCRICAO}
-                      // secondary={epiItem.EPIDESCRICAO}
                     />
                   </ListItem>
                 );
               })}
             </List>
           </Paper>
-        )}
+        )} */}
       </div>
 
       <Paper className={classes.uwu} elevation={3}>
@@ -272,9 +283,11 @@ const AdicionarEpi = ({
         >
           Adicionar
         </Button>
-      ) : checked.length && buttons ? buttons(() => addItem(checked)) : null}
+      ) : checked.length && buttons ? (
+        buttons(() => addItem(checked))
+      ) : null}
     </>
   );
-}
+};
 
-export default React.memo(AdicionarEpi)
+export default React.memo(AdicionarEpi);

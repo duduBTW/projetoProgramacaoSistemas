@@ -9,14 +9,14 @@ import {
 } from "@material-ui/pickers";
 
 export default function InputDate({
-  onChange,
-  returnRaw = false,
+  // onChange,
+  // returnRaw = false,
   name,
   control,
-  rules,
-  errors,
+  // rules,
+  // errors,
   label,
-  classProp,
+  // classProp,
 }) {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

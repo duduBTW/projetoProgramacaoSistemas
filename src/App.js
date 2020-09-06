@@ -29,6 +29,9 @@ const theme = createMuiTheme(
       error: {
         main: "#cc1010",
       },
+      background: {
+        default: "#e8eaf5",
+      },
     },
     status: {
       danger: "orange",
@@ -39,7 +42,7 @@ const theme = createMuiTheme(
 
 function App() {
   const [total, setTotal] = React.useState(0);
-  const [logged, setLogged] = React.useState(true);
+  const [logged, setLogged] = React.useState(false);
   const [totalBaixado, setTotalBaixado] = React.useState(0);
   const [downloadOn, setDownloadOn] = React.useState(false);
   // React.useEffect(() => {

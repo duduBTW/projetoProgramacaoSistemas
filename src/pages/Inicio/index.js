@@ -5,37 +5,19 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import GetAppIcon from "@material-ui/icons/GetApp";
 
-import Axios from "axios";
+import { Box } from "@material-ui/core";
+const Loading = require("../../assets/Loading EPI.gif");
 
 export default function Inicio() {
   return (
-    <div>
+    <Paper style={{ background: "#134B7B" }}>
+      {/* <video type="video/mp4" style={{ height: 400 }} src={Loading} /> */}
       <center>
-        <Typography variant="h2">Ficha gerada com sucesso</Typography>
+        <img style={{ height: 400 }} src={Loading} />
+        <Typography style={{ color: "white", padding: 15 }} variant="h3">
+          Gerando ficha
+        </Typography>
       </center>
-      <center>
-        <Button
-          variant="contained"
-          size="large"
-          startIcon={<GetAppIcon />}
-          onClick={() =>
-            Axios({
-              url: "https://speed.hetzner.de/1GB.bin",
-              method: "GET",
-              responseType: "blob", // important
-            }).then((response) => {
-              const url = window.URL.createObjectURL(new Blob([response.data]));
-              const link = document.createElement("a");
-              link.href = url;
-              link.setAttribute("download", "file.zip");
-              document.body.appendChild(link);
-              link.click();
-            })
-          }
-        >
-          Baixar
-        </Button>
-      </center>
-    </div>
+    </Paper>
   );
 }

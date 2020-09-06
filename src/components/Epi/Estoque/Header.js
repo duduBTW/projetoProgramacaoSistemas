@@ -1,5 +1,15 @@
 import React from "react";
-import { Paper, Typography, IconButton, TextField } from "@material-ui/core";
+import {
+  Paper,
+  Typography,
+  IconButton,
+  TextField,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+} from "@material-ui/core";
 import { EstoqueDetailsEditable } from "../CriarFicha/EstoqueInfo";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -13,6 +23,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
 
   return (
     <div style={{ margin: "0px 30px 30px 30px" }}>
@@ -26,7 +37,8 @@ export default function Header() {
           info={{ quantidade: 10, quantidadeMin: 4 }}
         />
       </Paper>
-      <AlertDialogSlide open={open} setOpen={setOpen} />
+      <AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} />
+      <AlertDialogSlide open={openAdd} setOpen={setOpenAdd} />
     </div>
   );
 }
@@ -36,13 +48,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export function AlertDialogSlide({ open, setOpen }) {
-  const [value, setValue] = React.useState(10);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [value, setValue] = React.useState(0);
 
   const handleClose = () => {
+    setValue(0);
     setOpen(false);
   };
 
@@ -57,9 +66,10 @@ export function AlertDialogSlide({ open, setOpen }) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          {"Editar Quantidade estoque"}
+          {open === 2 ? "Remover Estoque" : "Adicionar Estoque"}
         </DialogTitle>
-        <DialogContent style={{ margin: 20 }}>
+
+        <DialogContent style={{ margin: 10 }}>
           <IconButton
             onClick={() => {
               setValue((val) => val - 1);
@@ -93,6 +103,56 @@ export function AlertDialogSlide({ open, setOpen }) {
             Editar
           </Button>
         </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+export function AlertDialogType({ open, setOpen, setOpenAdd }) {
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <List>
+          <ListItem
+            button
+            onClick={() => {
+              setOpen(false);
+              setOpenAdd(1);
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <AddIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Adicionar ao estoque" />
+          </ListItem>
+          <ListItem
+            button
+            onClick={() => {
+              setOpen(false);
+              setOpenAdd(2);
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <RemoveIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Remover do estoque" />
+          </ListItem>
+        </List>
       </Dialog>
     </div>
   );

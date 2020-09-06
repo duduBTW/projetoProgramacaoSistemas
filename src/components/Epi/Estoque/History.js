@@ -31,7 +31,7 @@ export default function History() {
   const classes = useStyles();
 
   return (
-    <Timeline align="right">
+    <Timeline align="alternate">
       <center>
         {" "}
         <Typography variant="overline">Historico</Typography>{" "}
