@@ -23,8 +23,54 @@ function FormBody({
   errors,
   index = "",
   rules = {},
+  customValue,
 }: FormBodyProps) {
   const classes = useStyles();
+
+  // const getItemsForm = (value: string, schemaItem: SchemaProps, name: string) => {
+  //   switch (value) {
+  //     case 'masked':
+  //       return  <InputMasked
+  //       classStyle={classes.paper}
+  //       // @ts-ignore
+  //       style={{ width: "100%" }}
+  //       name={name}
+  //       label={schemaItem.label}
+  //       errors={errors[name]}
+  //       control={control}
+  //       mask={schemaItem.mask}
+  //       rules={schemaItem.rules}
+  //       onChange={(data: any) =>
+  //         schemaItem.onChange
+  //           ? schemaItem.onChange(
+  //               data,
+  //               `items[${index}].${schemaItem.name}`
+  //             )
+  //           : () => {}
+  //       }
+  //     />
+  //     case 'select':
+  //       return <SelectWithError
+  //       FormControlProps={{
+  //         // @ts-ignore
+  //         className: classes.paper,
+  //         variant: "outlined",
+  //       }}
+  //       name={name}
+  //       label={schemaItem.label}
+  //       rules={schemaItem.rules}
+  //       Controller={Controller}
+  //       control={control}
+  //       errors={errors[name]}
+  //     >
+  //       {schemaItem.options}
+  //     </SelectWithError>
+  //       break;
+    
+  //     default:
+  //       break;
+  //   }
+  // } 
 
   return (
     <>
@@ -33,18 +79,25 @@ function FormBody({
         const name =
           index !== "" ? `items[${index}].${schemaItem.name}` : schemaItem.name;
 
-        if (errors.items)
-          console.log("errors", errors.items[index][schemaItem.name]);
+          if (schemaItem.hidden) {
+            if(!customValue[schemaItem.value]) {
+              return <input
+                ref={register()}
+                type="hidden"
+                name={name}
+              />
+            }
 
-        // if (schemaItem.hidden)
-        //   return (
-        //     <input
-        //       ref={register()}
-        //       type="hidden"
-        //       name={name}
-        //       value={customValue[schemaItem.value]}
-        //     />
-        //   );
+            
+            return (
+              <input
+                ref={register()}
+                type="hidden"
+                name={name}
+                value={customValue[schemaItem.value]}
+              />
+            );
+          }
 
         return (
           <Grid

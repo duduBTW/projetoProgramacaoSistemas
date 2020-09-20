@@ -27,6 +27,7 @@ function Form({
   title,
   classForm,
   classBody,
+  customValue,
 }: FormProps) {
   defaultValues = { ...convertArrayToObject(schema, "name"), ...defaultValues };
 
@@ -58,6 +59,7 @@ function Form({
           register={register}
           control={control}
           errors={errors}
+          customValue={customValue}
         />
       </Grid>
       {buttons}

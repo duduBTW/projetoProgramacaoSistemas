@@ -14,7 +14,24 @@ export default function Sucesso({ epis, funcionario }) {
   const [guia, setGuia] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    console.log("aaaaaaaaaaa");
+    console.log("aaaaaaaaaaa", {
+      Date: "13/04/2020",
+      IdModel: 0,
+      Provider: {
+        Id: 59927,
+        Name: funcionario.nome,
+        Birth: moment(funcionario.nascimento).format(),
+        Admission: moment(funcionario.admissao).format(),
+        Gender: 2,
+        Gender_Description: "Feminino",
+        Document_RG: funcionario.rg,
+        Document_CPF: funcionario.cpf,
+        Document_Matricula: 11,
+        CompanyName: "Eliane e Bruno Pizzaria Ltda",
+        alreadySchedulule: false,
+      },
+      EpiGuiaItem: epis,
+    });
     instance
       .post("/safety/epi/putepi", {
         Date: "13/04/2020",
@@ -28,6 +45,7 @@ export default function Sucesso({ epis, funcionario }) {
           Gender_Description: "Feminino",
           Document_RG: funcionario.rg,
           Document_CPF: funcionario.cpf,
+          Document_Matricula: 11,
           CompanyName: "Eliane e Bruno Pizzaria Ltda",
           alreadySchedulule: false,
         },

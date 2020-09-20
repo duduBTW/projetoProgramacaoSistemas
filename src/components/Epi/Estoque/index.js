@@ -1,10 +1,10 @@
 import React from "react";
 import { instance } from "../../../services/api";
-// import Crud from "../../Crud";
+import Search from "../../Search";
 import { LinearProgress, Button } from "@material-ui/core";
 import ModalAdicionar from "../../Crud/ModalAdicionar";
 import EstoqueAdicionar from "./EstoqueAdicionar";
-import { Search, Crud } from "material-ui-generic-components";
+// import { Search, Crud } from "material-ui-generic-components";
 import AddIcon from "@material-ui/icons/Add";
 import { useHistory } from "react-router-dom";
 
@@ -41,6 +41,11 @@ export default function Estoque() {
         console.log("response estoque", reponse.data);
       });
   };
+
+  const redirectPage = (data) => {
+    const { EPECODIGO } = data;
+    history.push(`/epi/estoque/${EPECODIGO}`);
+  };
   return (
     <div>
       <ModalAdicionar
@@ -63,6 +68,9 @@ export default function Estoque() {
         title="Estoque"
         search={search}
         content={content}
+        crudProps={{
+          onEditClick: redirectPage,
+        }}
         edit={true}
         // onClick={() => history.push("/estoque/2")}
         fieldsSearchMain={[

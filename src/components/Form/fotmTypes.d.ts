@@ -24,10 +24,12 @@ interface SchemaProps {
   masked?: boolean;
   select?: boolean;
   options?: any;
-  date: boolean;
+  date?: boolean;
   mask?: string;
   blank?: boolean;
   onChange?: (value: any, index: string) => void;
+  hidden?: boolean;
+  value?: any;
 }
 
 interface FormProps {
@@ -38,6 +40,7 @@ interface FormProps {
   title?: any;
   classForm?: any;
   classBody?: any;
+  customValue?: any;
 }
 
 interface FormBodyProps {
@@ -47,4 +50,5 @@ interface FormBodyProps {
   rules?: ValidationRules;
   errors: any;
   index?: string;
+  customValue: any;
 }

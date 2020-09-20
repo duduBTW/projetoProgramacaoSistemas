@@ -9,10 +9,25 @@ import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import HotelIcon from "@material-ui/icons/Hotel";
-import RepeatIcon from "@material-ui/icons/Repeat";
+
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import moment from "moment";
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
+  AccordionActions,
+  AccordionDetails,
+  AccordionSummary,
+  Accordion,
+} from "@material-ui/core";
+import clsx from "clsx";
+import Form from "components/Form";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,131 +37,144 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.action.hover,
     },
   },
+  alinhar: {
+    padding: 10,
+  },
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  column: {
+    flexBasis: "33.33%",
+  },
+  columnMetade: {
+    flexBasis: "50%",
+    padding: 20,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
 }));
 
-export default function History() {
+export default function History({ data, setOpenTime }) {
   const classes = useStyles();
+  const [value, setValue] = React.useState("alternate");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
-    <Timeline align="alternate">
+    <Timeline align={value}>
+      <div className={classes.root}>
+        <Accordion style={{ margin: 15 }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1c-content"
+            id="panel1c-header"
+          >
+            {/* <Typography className={classes.secondaryHeading}>
+              Filtros
+            </Typography> */}
+            <div className={classes.column}>
+              <Typography className={classes.heading}>Filtros</Typography>
+            </div>
+            <div className={classes.column}>
+              <Typography className={classes.secondaryHeading}>
+                Clique para ver mais detalhes
+              </Typography>
+            </div>
+          </AccordionSummary>
+          <div style={{ padding: "0px 15px 10px 15px" }}>
+            <div style={{ marginBottom: 20 }}>
+              <Form
+                schema={[
+                  {
+                    date: true,
+                    name: "startDate",
+                    label: "Data inicial",
+                    lg: 6,
+                  },
+                  { date: true, name: "endDate", label: "Data final", lg: 6 },
+                ]}
+              />
+            </div>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Alinhar</FormLabel>
+              <RadioGroup
+                aria-label="Alinhar"
+                name="Alinhar"
+                value={value}
+                onChange={handleChange}
+                row
+              >
+                <FormControlLabel
+                  value="left"
+                  control={<Radio />}
+                  label="Direita"
+                />
+                <FormControlLabel
+                  value="right"
+                  control={<Radio />}
+                  label="Esquerda"
+                />
+                <FormControlLabel
+                  value="alternate"
+                  control={<Radio />}
+                  label="Alternar"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+        </Accordion>
+      </div>
+      <Paper></Paper>
       <center>
         {" "}
         <Typography variant="overline">Historico</Typography>{" "}
       </center>
 
-      {/* Add */}
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textPrimary">
-            10/10/2020
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            10:00 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot color="primary">
-            <AddIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={1} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              10
-            </Typography>
-            {/* <Typography>Because it&apos;s awesome!</Typography> */}
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-
-      {/* Remove */}
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textPrimary">
-            10/10/2020
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            11:00 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot
-            color="danger"
-            style={{ color: "red" }}
-            variant="outlined"
-          >
-            <RemoveIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={1} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              5
-            </Typography>
-            {/* <Typography>Because you need rest</Typography> */}
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-
-      {/* Remove */}
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textPrimary">
-            10/10/2020
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            11:00 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot
-            color="danger"
-            style={{ color: "red" }}
-            variant="outlined"
-          >
-            <RemoveIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={1} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              5
-            </Typography>
-            {/* <Typography>Because you need rest</Typography> */}
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textPrimary">
-            10/10/2020
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            10:00 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot color="primary">
-            <AddIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={1} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              10
-            </Typography>
-            {/* <Typography>Because it&apos;s awesome!</Typography> */}
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
+      {data.map((item) => {
+        return (
+          <TimelineItem>
+            <TimelineOppositeContent style={{ paddingTop: 10 }}>
+              <Typography variant="body2" color="textPrimary">
+                {moment(item.EPEHDATE).format("DD/MM/YYYY")}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {moment(item.EPEHDATE).format("HH:mm")}
+              </Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              {item.EPEHTYPE == 2 ? (
+                <TimelineDot
+                  color="danger"
+                  style={{ color: "red" }}
+                  variant="outlined"
+                >
+                  <RemoveIcon />
+                </TimelineDot>
+              ) : (
+                <TimelineDot color="primary">
+                  <AddIcon />
+                </TimelineDot>
+              )}
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Paper elevation={1} className={classes.paper}>
+                <Typography variant="h6" component="h1">
+                  {item.EPEHQUANT}
+                </Typography>
+              </Paper>
+            </TimelineContent>
+          </TimelineItem>
+        );
+      })}
     </Timeline>
   );
 }

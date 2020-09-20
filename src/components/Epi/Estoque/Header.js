@@ -20,21 +20,23 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import Form from "components/Form";
 
-export default function Header() {
+export default function Header({ name, quantidade, quantidadeMin, ca }) {
   const [open, setOpen] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
 
   return (
-    <div style={{ margin: "0px 30px 30px 30px" }}>
+    <div style={{ margin: "0px 30px 0px 30px" }}>
       <Paper style={{ padding: 30 }}>
         <Typography variant="h5">
-          Proteção do tronco do usuário contra riscos de origem radioativa.
+          {" "}
+          {ca} - {name}
         </Typography>
         <br />
         <EstoqueDetailsEditable
           onQuantidadeClick={() => setOpen(true)}
-          info={{ quantidade: 10, quantidadeMin: 4 }}
+          info={{ quantidade, quantidadeMin }}
         />
       </Paper>
       <AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} />
@@ -76,6 +78,7 @@ export function AlertDialogSlide({ open, setOpen }) {
             }}
             color="primary"
             style={{ margin: "0px 10px" }}
+            disabled={value <= 0}
           >
             <RemoveIcon />
           </IconButton>
@@ -153,6 +156,48 @@ export function AlertDialogType({ open, setOpen, setOpenAdd }) {
             <ListItemText primary="Remover do estoque" />
           </ListItem>
         </List>
+      </Dialog>
+    </div>
+  );
+}
+export function AlertDialogTime({ open, setOpen, setOpenAdd }) {
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>Selecionar Data</DialogTitle>
+        <DialogContent>
+          <Form
+            style={{ padding: 0, margin: 0 }}
+            schema={[
+              { date: true, lg: 12, label: "Data Inicio", name: "dateInicio" },
+            ]}
+            buttons={
+              <DialogActions style={{ paddingRight: 0, paddingTop: 20 }}>
+                <Button onClick={handleClose} color="primary">
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  variant="contained"
+                  color="primary"
+                >
+                  Editar
+                </Button>
+              </DialogActions>
+            }
+          />
+        </DialogContent>
       </Dialog>
     </div>
   );

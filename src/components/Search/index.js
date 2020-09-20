@@ -124,6 +124,7 @@ export default function Search({
   content,
   edit = false,
   extraButtons,
+  crudProps,
 }) {
   const classes = useStyles();
 
@@ -202,7 +203,14 @@ export default function Search({
           <CircularProgress />
         </center>
       ) : (
-        content && <Crud edit={edit} content={content} schema={fieldsContent} />
+        content && (
+          <Crud
+            {...crudProps}
+            edit={edit}
+            content={content}
+            schema={fieldsContent}
+          />
+        )
       )}
     </div>
   );

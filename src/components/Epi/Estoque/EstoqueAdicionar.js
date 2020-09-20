@@ -4,6 +4,7 @@ import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import StepperVertical from "../../Stepper/StepperVertical";
 import AdicionarEpi from "../CriarFicha/AdicionarEpi";
 import ArrayForm from "../../Form/ArrayForm";
+import SucessoAdicionar from "./SucessoAdicionar"
 import { instance } from "../../../services/api";
 
 function getStepContent(
@@ -22,6 +23,12 @@ function getStepContent(
   remove,
   epiAutocomplete
 ) {
+  const submitItem = (data) => {
+    console.log('data', data)
+    setItems(data)
+    setActiveStep(2)
+  } 
+
   switch (step) {
     case 0:
       return (
@@ -42,8 +49,8 @@ function getStepContent(
           handleSubmit={handleSubmit}
           control={control}
           errors={errors}
-          buttons={buttons(() => {})}
-          onSubmit={setItems}
+          buttons={buttons(() => {}, true)}
+          onSubmit={submitItem}
           estoqueInfo={{}}
           remove={remove}
           setActiveStep={setActiveStep}
@@ -72,7 +79,6 @@ function getStepContent(
               rules: {
                 required: "Campo obrigatório",
               },
-              date: true,
             },
             // { blank: true, lg: 2 },
             {
@@ -109,11 +115,6 @@ function getStepContent(
               name: "EPIID",
               value: "EPIID",
             },
-            {
-              hidden: true,
-              name: "EPECODIGO",
-              value: "EPECODIGO",
-            },
           ]}
         />
       );
@@ -136,9 +137,6 @@ const EstoqueAdicionar = () => {
         .get(`/safety/epi/epiinformation?EpiCa=${ca}`)
         .then((response) => {
           setValue(`items[${index}].descricao`, response.data.NomeEquipamento, {
-            shouldValidate: true,
-          });
-          setValue(`items[${index}].vencimento`, response.data.DataValidade, {
             shouldValidate: true,
           });
           setValue(`items[${index}].vencimento`, response.data.DataValidade, {
@@ -170,6 +168,7 @@ const EstoqueAdicionar = () => {
         )
       }
       steps={["Selecionar EPI's", "Preencher informações"]}
+      finish={<SucessoAdicionar epis={items} />}
     />
   );
 };

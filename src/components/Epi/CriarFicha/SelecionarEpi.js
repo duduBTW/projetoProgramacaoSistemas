@@ -79,13 +79,14 @@ export default function SelecionarEpi({
       instance
         .get(`/safety/epi/epiinformation?EpiCa=${ca}`)
         .then((response) => {
+          console.log(response.data)
           setValue(`items[${index}].descricao`, response.data.NomeEquipamento, {
             shouldValidate: true,
           });
           setValue(`items[${index}].vencimento`, response.data.DataValidade, {
             shouldValidate: true,
           });
-          setValue(`items[${index}].vencimento`, response.data.DataValidade, {
+          setValue(`items[${index}].EPECODIGO`, response.data.epeinfos.EPECODIGO, {
             shouldValidate: true,
           });
 
@@ -181,7 +182,6 @@ export default function SelecionarEpi({
           {
             hidden: true,
             name: "EPECODIGO",
-            value: "EPECODIGO",
           },
         ]}
       />

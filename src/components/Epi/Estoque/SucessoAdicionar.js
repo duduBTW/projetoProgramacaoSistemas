@@ -9,35 +9,16 @@ import Axios from "axios";
 
 import { instance } from "../../../services/api";
 
-export default function Sucesso({ epis, funcionario }) {
-  const [guia, setGuia] = React.useState(null);
+export default function Sucesso({ epis }) {
+  const [complete, setComplete] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    console.log("aaaaaaaaaaa");
+    console.log("aaaaaaaaaaa", epis);
     instance
-      .post("/safety/epi/putepi", {
-        Date: "13/04/2020",
-        IdModel: 0,
-        Provider: {
-          Id: 59927,
-          Name: funcionario.nome,
-          Birth:
-            funcionario.nascimento.split("/").reverse().join("-") + "T00:00:00",
-          Admission:
-            funcionario.admissao.split("/").reverse().join("-") + "T00:00:00",
-          Gender: 2,
-          Gender_Description: "Feminino",
-          Document_RG: funcionario.rg,
-          Document_CPF: funcionario.cpf,
-          CompanyName: "Eliane e Bruno Pizzaria Ltda",
-          alreadySchedulule: false,
-        },
-        EpiGuiaItem: epis,
-      })
+      .post("/safety/epi/PostStock", epis.items)
       .then((response) => {
         setLoading(false);
-        console.log("response.data", response.data);
-        setGuia(response.data);
+        setComplete(true);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,25 +45,8 @@ export default function Sucesso({ epis, funcionario }) {
               <Button
                 variant="contained"
                 size="large"
-                startIcon={<GetAppIcon />}
-                onClick={() =>
-                  Axios({
-                    url:
-                      "https://cors-anywhere.herokuapp.com/https://emparquivos.s3.amazonaws.com/" +
-                      guia,
-                    method: "GET",
-                    responseType: "blob", // important
-                  }).then((response) => {
-                    const url = window.URL.createObjectURL(
-                      new Blob([response.data])
-                    );
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.setAttribute("download", "file.zip");
-                    document.body.appendChild(link);
-                    link.click();
-                  })
-                }
+                color="primary"
+                onClick={() => {}}
               >
                 Baixar
             </Button>

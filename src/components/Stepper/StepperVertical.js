@@ -56,7 +56,7 @@ export default function StepperVertical({
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              {getStepContent(index, setActiveStep, (func) => (
+              {getStepContent(index, setActiveStep, (func, submit = false) => (
                 <div className={classes.actionsContainer}>
                   <div>
                     <Button
@@ -69,8 +69,9 @@ export default function StepperVertical({
                     <Button
                       variant="contained"
                       color="primary"
+                      type={submit ? "submit" : "button"}
                       onClick={() => {
-                        handleNext();
+                        if(!submit) handleNext();
                         func();
                       }}
                       className={classes.button}
