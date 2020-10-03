@@ -99,15 +99,6 @@ export default function Estoque() {
             >
               Novo
             </Button>
-            <Button
-              startIcon={<AddIcon />}
-              // className={classes.button}
-              onClick={() => history.push("/epi/estoque/2")}
-              variant="contained"
-              color="primary"
-            >
-              Pog
-            </Button>
           </>
         }
       />

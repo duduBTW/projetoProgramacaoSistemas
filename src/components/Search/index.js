@@ -145,9 +145,12 @@ export default function Search({
     <div>
       {/* <div className={classes.root}></div> */}
       <Paper elevation={2}>
-        <Typography style={{ padding: "20px 20px 0px 20px" }} variant="h5">
-          {title}
-        </Typography>
+        {title && (
+          <Typography style={{ padding: "20px 20px 0px 20px" }} variant="h5">
+            {title}
+          </Typography>
+        )}
+
         <div className={classes.header}>
           <Form
             onSubmit={search}

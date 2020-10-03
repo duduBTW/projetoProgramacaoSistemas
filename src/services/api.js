@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: `https://api.prosesmt.com.br/v1-hom`,
+  baseURL: `https://cors-anywhere.herokuapp.com/https://api.prosesmt.com.br/v1-hom`,
   headers: {
     common: {
       Authorization:

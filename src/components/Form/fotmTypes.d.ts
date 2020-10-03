@@ -30,6 +30,7 @@ interface SchemaProps {
   onChange?: (value: any, index: string) => void;
   hidden?: boolean;
   value?: any;
+  variant?: "filled" | "outlined" | "standard" | undefined;
 }
 
 interface FormProps {

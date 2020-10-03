@@ -72,7 +72,7 @@ export default function SelecionarEmpresa({
           },
         ]}
         onSubmit={loginEmpresa}
-          buttons={<div style={{ marginTop: "15vh" }}>{buttons}</div>}
+        buttons={<div style={{ marginTop: "15vh" }}>{buttons}</div>}
       />
     </div>
   );

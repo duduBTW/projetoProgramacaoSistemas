@@ -66,11 +66,11 @@ function FormBody({
   //       {schemaItem.options}
   //     </SelectWithError>
   //       break;
-    
+
   //     default:
   //       break;
   //   }
-  // } 
+  // }
 
   return (
     <>
@@ -79,25 +79,20 @@ function FormBody({
         const name =
           index !== "" ? `items[${index}].${schemaItem.name}` : schemaItem.name;
 
-          if (schemaItem.hidden) {
-            if(!customValue[schemaItem.value]) {
-              return <input
-                ref={register()}
-                type="hidden"
-                name={name}
-              />
-            }
-
-            
-            return (
-              <input
-                ref={register()}
-                type="hidden"
-                name={name}
-                value={customValue[schemaItem.value]}
-              />
-            );
+        if (schemaItem.hidden) {
+          if (!customValue[schemaItem.value]) {
+            return <input ref={register()} type="hidden" name={name} />;
           }
+
+          return (
+            <input
+              ref={register()}
+              type="hidden"
+              name={name}
+              value={customValue[schemaItem.value]}
+            />
+          );
+        }
 
         return (
           <Grid
@@ -177,7 +172,7 @@ function FormBody({
                       inputRef={register(schemaItem.rules)}
                       name={name}
                       label={schemaItem.label}
-                      variant="outlined"
+                      variant={schemaItem.variant || "outlined"}
                       type={schemaItem.type || "text"}
                       onBlur={(data: any) =>
                         schemaItem.onChange

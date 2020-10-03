@@ -186,18 +186,17 @@ function DefaultLayout({ user, history, total, totalBaixado, downloadinOn }) {
             ProSESMT
           </Typography>
         </Toolbar>
-        {auth && (
-          <div>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-        )}
+        <div>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+            onClick={() => history.push("/mobileLogin")}
+          >
+            <AccountCircle />
+          </IconButton>
+        </div>
       </AppBar>
       {showSideNav && (
         <SideNav

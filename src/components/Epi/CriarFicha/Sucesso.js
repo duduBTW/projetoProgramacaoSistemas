@@ -37,15 +37,15 @@ export default function Sucesso({ epis, funcionario }) {
         Date: "13/04/2020",
         IdModel: 0,
         Provider: {
-          Id: 59927,
+          Id: funcionario.id || 0,
           Name: funcionario.nome,
           Birth: moment(funcionario.nascimento).format(),
           Admission: moment(funcionario.admissao).format(),
-          Gender: 2,
-          Gender_Description: "Feminino",
+          Gender: funcionario.sexo,
+          Gender_Description: funcionario.sexo === 2 ? "Feminino" : "Masculino",
           Document_RG: funcionario.rg,
           Document_CPF: funcionario.cpf,
-          Document_Matricula: 11,
+          Document_Matricula: funcionario.matricula,
           CompanyName: "Eliane e Bruno Pizzaria Ltda",
           alreadySchedulule: false,
         },
@@ -84,9 +84,7 @@ export default function Sucesso({ epis, funcionario }) {
               startIcon={<GetAppIcon />}
               onClick={() =>
                 Axios({
-                  url:
-                    "https://cors-anywhere.herokuapp.com/https://emparquivos.s3.amazonaws.com/" +
-                    guia,
+                  url: "https://emparquivos.s3.amazonaws.com/" + guia,
                   method: "GET",
                   responseType: "blob", // important
                 }).then((response) => {
