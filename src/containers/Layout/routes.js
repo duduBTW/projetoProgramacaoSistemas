@@ -2,7 +2,7 @@ import React from "react";
 
 const Dashboard = <div>UwU</div>;
 const Inicio = React.lazy(() => import("../../pages/Inicio"));
-const Ficha = React.lazy(() => import("../../components/Epi/Ficha"));
+const Ficha = React.lazy(() => import("../../components/Epi/Ficha/index"));
 const CriarFicha = React.lazy(() => import("../../pages/Epi/CriarFicha"));
 const Estoque = React.lazy(() => import("../../pages/Epi/Estoque"));
 const EpiItem = React.lazy(() => import("../../pages/Epi/EpiItem"));

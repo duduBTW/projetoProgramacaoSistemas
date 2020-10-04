@@ -100,7 +100,7 @@ export default function FormularioFuncionario({ data, buttons, nextDados }) {
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
-        centered
+        variant="fullWidth"
       >
         <Tab label="Novo Funcionário" />
         <Tab label="Funcionário ja Cadastrado" />

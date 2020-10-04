@@ -40,3 +40,12 @@ export interface EmployeeDomain {
   Department: EmployeeDepartmentDomain;
   CompanyName: string;
 }
+
+export interface employeeItem {
+  FUNNOME: string;
+  FUNCPF?: number;
+  FUNMATRICULA?: number;
+  FUNRG?: number;
+  FUNADMISSAO: string;
+  FUNNASCIMENTO: string;
+}
