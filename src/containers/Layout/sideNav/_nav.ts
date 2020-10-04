@@ -52,6 +52,16 @@ const sidenav: sidenavProps = {
         },
       ],
     },
+    {
+      name: "Funcionario",
+      url: "/funcionario",
+      //Nome do ícone : font awesome
+      Icon: HomeIcon,
+      badge: {
+        variant: "info", //danger, warning, success, info, primary, secundary
+        text: "NOVO",
+      },
+    },
   ],
 };
 
