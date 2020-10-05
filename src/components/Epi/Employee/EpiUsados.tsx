@@ -18,10 +18,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import moment from "moment";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 // import { Guia } from "../ficha";
 
 import { instance } from "services/api";
 import {
+  Button,
   Checkbox,
   FormControlLabel,
   List,
@@ -30,6 +32,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { CheckBox } from "@material-ui/icons";
+import { useFetch } from "services/hook.js/useFetch";
 
 interface EpiUsadosProps {
   id: number;
@@ -44,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: "center",
     flex: 1,
-    margin: "20px 0px",
+    margin: "0px 0px 20px 0px",
   },
   media: {
     height: 150,
@@ -88,14 +91,46 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     marginBottom: "5px",
   },
+  card: {
+    padding: "10px 10px 0px 10px",
+    margin: "0px 0px 20px 0px",
+    position: "relative",
+  },
+  cardContent: {
+    margin: "0px 15px 15px 15px",
+    padding: "10px 10px 0px 10px",
+    "&:last-child": {
+      padding: "0px",
+    },
+  },
+  checkboxItem: {
+    position: "absolute",
+    right: "20px",
+    top: "50%",
+    transform: "translateY(-50%)",
+  },
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flex: 1,
+    "& button": {
+      margin: "0px 0px 10px 15px",
+    },
+  },
 }));
 
 export default function EpiUsados({ id }: EpiUsadosProps) {
+  const trigger = useScrollTrigger();
   const classes = useStyles();
 
-  const [content, setContent] = React.useState<Array<Guia>>();
+  // const [data, setContent] = React.useState<Array<Guia>>();
   const [expanded, setExpanded] = React.useState<Array<number>>([]);
+  const [item, setItem] = React.useState<Array<number>>([]);
+  const [list, setList] = React.useState<Array<number>>([]);
 
+  const { data } = useFetch<Array<Guia>>(
+    `/safety/epi/employee/getEpi?id=${id}&status=1`
+  );
   const handleExpandClick = (index: number) => {
     const exists = expanded.includes(index);
 
@@ -107,21 +142,50 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
     }
   };
 
-  const handleChange = (event: any) => {
+  const handleChangeList = (index: number) => {
+    const exists = list.includes(index);
+
+    if (!exists) {
+      setList([...list, index]);
+    } else {
+      const newArray = list.filter((item) => item !== index);
+      setList(newArray);
+    }
     // setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  React.useEffect(() => {
-    instance
-      .get(`/safety/epi/employee/getEpi?id=${id}&status=1`)
-      .then((response) => {
-        setContent(response.data);
-      });
-  }, [id]);
+  const handleChangeItem = (index: number) => {
+    const exists = item.includes(index);
+
+    if (!exists) {
+      setItem([...item, index]);
+    } else {
+      const newArray = item.filter((item) => item !== index);
+      setItem(newArray);
+    }
+    // setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  // React.useEffect(() => {
+  //   instance
+  //     .get(`/safety/epi/employee/getEpi?id=${id}&status=1`)
+  //     .then((response) => {
+  //       setContent(response.data);
+  //     });
+  // }, [id]);
+
   return (
     <div>
-      {content ? (
-        content.map((guia, index) => (
+      <div className={classes.buttons}>
+        <Button variant="contained" color="primary">
+          Trocar
+        </Button>
+        <Button variant="contained" color="primary">
+          Devolver
+        </Button>
+      </div>
+      {data ? (
+        data.map((guia, index) => (
           <div className={classes.container}>
             <Card className={classes.root}>
               <CardHeader
@@ -167,8 +231,12 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
                   className={classes.checkbox}
                   control={
                     <Checkbox
-                      checked={false}
-                      onChange={handleChange}
+                      checked={list.includes(
+                        Number(guia.EpiGuiaHeader.FIECODIGO)
+                      )}
+                      onChange={() =>
+                        handleChangeList(Number(guia.EpiGuiaHeader.FIECODIGO))
+                      }
                       name="checkedB"
                       color="primary"
                     />
@@ -191,9 +259,9 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
                 timeout="auto"
                 unmountOnExit
               >
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   {guia.EpiGuiaDetalhesItem.map((detalhes) => (
-                    <Card>
+                    <Card className={classes.card}>
                       {" "}
                       <div className={classes.document}>
                         <div className={classes.documentItem}>
@@ -227,6 +295,19 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
                             {detalhes.FIETROCA}
                           </Typography>
                         </div>
+                      </div>
+                      <div className={classes.checkboxItem}>
+                        <Checkbox
+                          checked={
+                            list.includes(Number(detalhes.FIECODIGO)) ||
+                            item.includes(Number(detalhes.FIDCODIGO))
+                          }
+                          onChange={() =>
+                            handleChangeItem(Number(detalhes.FIDCODIGO))
+                          }
+                          name="checkedB"
+                          color="primary"
+                        />
                       </div>
                     </Card>
                   ))}

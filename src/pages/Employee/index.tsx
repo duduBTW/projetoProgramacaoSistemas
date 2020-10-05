@@ -6,12 +6,15 @@ import { EmployeeDomain } from "./employee";
 
 export default function Employee({ history }: { history: any }) {
   const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const search = (data: EmployeeDomain) => {
     console.log(data);
+    setLoading(true);
     instance
       .get(`/safety/epi/GetEmployeeWithEpis?Name=${data.Name}&Cpf=`)
       .then((response) => {
+        setLoading(false);
         setContent(response.data);
         console.log("response.data", response.data);
       });
@@ -27,7 +30,7 @@ export default function Employee({ history }: { history: any }) {
     <div>
       {/* @ts-ignore */}
       <Search
-        loading={false}
+        loading={loading}
         search={search}
         content={content}
         crudProps={{ onEditClick: itemClick }}

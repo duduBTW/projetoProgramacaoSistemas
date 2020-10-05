@@ -25,7 +25,7 @@ import clsx from "clsx";
 import navigation from "./_nav";
 import { Typography } from "@material-ui/core";
 
-const drawerWidth = 240;
+const drawerWidth = 160;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
