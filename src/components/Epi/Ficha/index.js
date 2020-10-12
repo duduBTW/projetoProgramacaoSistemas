@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom"
+
 import Search from "../../Search";
 import { instance } from "../../../services/api";
 import moment from "moment";
@@ -6,6 +8,7 @@ import moment from "moment";
 const Ficha = () => {
   const [loading, setLoding] = React.useState(false);
   const [content, setContent] = React.useState(null);
+  const history = useHistory()
 
   const search = (data) => {
     console.log("data", data);
@@ -25,6 +28,12 @@ const Ficha = () => {
       });
   };
 
+  const redirectPage = (data) => {
+    console.log("data", data)
+    const { FIECODIGO } = data.EpiGuiaHeader;
+    history.push(`/epi/ficha/${FIECODIGO}`);
+  };
+
   return (
     <div>
       <Search
@@ -33,6 +42,9 @@ const Ficha = () => {
         content={content}
         title="Ficha EPI"
         edit={true}
+        crudProps={{
+          onEditClick: redirectPage,
+        }}
         fieldsContent={[
           { label: "Funcionário", content: "EpiGuiaHeader.FUNNOME" },
           // { label: "Código", content: "nucleo.NUCCODIGO" },

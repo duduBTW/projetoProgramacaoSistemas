@@ -10,6 +10,7 @@ const Model = React.lazy(() => import("../../pages/Epi/Model"));
 const Mobile = React.lazy(() => import("../../pages/Login/Mobile"));
 const Employee = React.lazy(() => import("../../pages/Employee"));
 const EmployeeItem = React.lazy(() => import("../../pages/Employee/item"));
+const EpiItemO = React.lazy(() => import("../../components/Epi/Ficha/Itme"));
 
 const routes = [
   // { path: "/", exact: true, name: "Home", privateRoute: true },
@@ -44,8 +45,15 @@ const routes = [
   {
     path: "/epi/ficha",
     name: "Ficha",
-    exact: false,
+    exact: true,
     component: Ficha,
+    privateRoute: true,
+  },
+  {
+    path: "/epi/ficha/:id",
+    name: "Ficha",
+    exact: true,
+    component: EpiItemO,
     privateRoute: true,
   },
   {

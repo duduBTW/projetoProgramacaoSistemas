@@ -40,6 +40,8 @@ export default function Header({ content }: HeaderProps) {
           <Typography variant="subtitle1"> CPF </Typography>
           <Typography variant="h6">{content.FUNCPF}</Typography>
         </div>
+      </div>
+      <div className={classes.document}>
         <div className={classes.documentItem}>
           <Typography variant="subtitle1"> RG </Typography>
           <Typography variant="h6">{content.FUNRG}</Typography>
@@ -53,6 +55,10 @@ export default function Header({ content }: HeaderProps) {
             {moment(content.FUNNASCIMENTO).format("DD/MM/yyyy")}
           </Typography>
         </div>
+       
+      </div>
+      <div className={classes.document}>
+        
         <div className={classes.documentItem}>
           <Typography variant="subtitle1"> Admissão </Typography>
           <Typography variant="h6">

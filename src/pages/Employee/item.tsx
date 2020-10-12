@@ -10,12 +10,15 @@ import EpiUsados from "components/Epi/Employee/EpiUsados";
 import Header from "components/Epi/Employee/header";
 import React, { useEffect } from "react";
 import { instance } from "services/api";
+import { useFetch } from "services/hook.js/useFetch";
 import { employeeItem } from "./employee";
+import ItemContainer from "../../components/Item/ItemContainer"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      padding: "20px 20px 10px 20px",
+      margin: "10px 10px 0px 10px",
+      display: "flex"
     },
     document: {
       display: "flex",
@@ -48,25 +51,17 @@ function TabPanel(props: any) {
 export default function Item({ match }: { match: any }) {
   const classes = useStyles();
   const { id } = match.params;
-  const [content, setContent] = React.useState<employeeItem>();
+  // const [data, setContent] = React.useState<employeeItem>();
   const [value, setValue] = React.useState<number>(0);
 
   const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    instance.get(`/safety/epi/employee?id=${id}`).then((response) => {
-      setContent(response.data);
-    });
-  }, [id]);
+  const {data} = useFetch<employeeItem>(`/safety/epi/employee?id=${id}`)
 
-  return content ? (
-    <div>
-      <Paper className={classes.root}>
-        <Header content={content} />
-        <div>
-          <Tabs
+  const dt = <>
+<Tabs
             value={value}
             onChange={handleChange}
             indicatorColor="primary"
@@ -82,9 +77,10 @@ export default function Item({ match }: { match: any }) {
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}></TabPanel>
-        </div>
-      </Paper>
-    </div>
+  </>
+
+  return data ? (
+        <ItemContainer itemContainer={dt} itemDetails={<Header content={data} />} />
   ) : (
     <div>Carregando...</div>
   );

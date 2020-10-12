@@ -21,29 +21,36 @@ import Slide from "@material-ui/core/Slide";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Form from "components/Form";
+import DataShow from "components/Item/DataShow";
 
-export default function Header({ name, quantidade, quantidadeMin, ca }) {
+// export default function Header({ name, quantidade, quantidadeMin, ca }) {
+export default function Header({data}) {
   const [open, setOpen] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
 
   return (
-    <div style={{ margin: "0px 30px 0px 30px" }}>
-      <Paper style={{ padding: 30 }}>
-        <Typography variant="h5">
-          {" "}
-          {ca} - {name}
-        </Typography>
-        <br />
-        <EstoqueDetailsEditable
-          onQuantidadeClick={() => setOpen(true)}
-          info={{ quantidade, quantidadeMin }}
-        />
-      </Paper>
-      <AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} />
-      <AlertDialogSlide open={openAdd} setOpen={setOpenAdd} />
-    </div>
-  );
+      <DataShow 
+        schema={[
+          [
+            {label: "Descrição", content: "EPIDESCRICAO"}
+          ], 
+          [
+            {label: "CA",content: "EPECA"}, 
+          ], 
+          [
+            {label: "Quantidade", content: "EPIQUANTIDADE"},
+          ], 
+          [
+            {label: "Quantidade Minima", content: "EPIQUANTIDADEMIN"},
+          ]]
+        } 
+        data={data}
+      />
+      );
+     
 }
+//<AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} /> 
+//<AlertDialogSlide open={openAdd} setOpen={setOpenAdd} /> 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
