@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function History({ data, setOpenTime }) {
+export default function History({ data }) {
   const classes = useStyles();
   const [value, setValue] = React.useState("alternate");
 
@@ -70,16 +70,13 @@ export default function History({ data, setOpenTime }) {
 
   return (
     <Timeline align={value}>
-      <div className={classes.root}>
+      {/* <div className={classes.root}>
         <Accordion style={{ margin: 15 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1c-content"
             id="panel1c-header"
           >
-            {/* <Typography className={classes.secondaryHeading}>
-              Filtros
-            </Typography> */}
             <div className={classes.column}>
               <Typography className={classes.heading}>Filtros</Typography>
             </div>
@@ -131,10 +128,8 @@ export default function History({ data, setOpenTime }) {
             </FormControl>
           </div>
         </Accordion>
-      </div>
-      <Paper></Paper>
+      </div> */}
       <center>
-        {" "}
         <Typography variant="overline">Historico</Typography>{" "}
       </center>
 

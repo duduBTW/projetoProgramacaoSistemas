@@ -61,7 +61,7 @@ export default function Item({ match }: { match: any }) {
   const {data} = useFetch<employeeItem>(`/safety/epi/employee?id=${id}`)
 
   const dt = <>
-<Tabs
+          <Tabs
             value={value}
             onChange={handleChange}
             indicatorColor="primary"

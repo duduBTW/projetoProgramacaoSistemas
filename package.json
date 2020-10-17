@@ -18,6 +18,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
+    "@types/recharts": "^1.8.16",
     "axios": "^0.19.2",
     "cross-env": "^6.0.3",
     "electron-is-dev": "^1.1.0",
@@ -33,6 +34,7 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.3",
+    "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "swr": "^0.3.2"
   },
