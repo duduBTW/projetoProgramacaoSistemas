@@ -1,6 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import { Grid, Typography, Slide, CircularProgress } from "@material-ui/core";
+import Lottie from "react-lottie";
 import {
   makeStyles,
   Button,
@@ -14,6 +15,7 @@ import DrawerFiltros from "./DrawerFiltros";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Form from "../Form";
 import Crud from "../Crud";
+import loadingProsesmt from "../../assets/loadingProsesmt.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -141,6 +143,12 @@ export default function Search({
     setOpenDrawer(open);
   };
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingProsesmt,
+  };
+
   return (
     <div>
       {/* <div className={classes.root}></div> */}
@@ -202,8 +210,7 @@ export default function Search({
       {loading ? (
         <center>
           <br />
-          <br />
-          <CircularProgress />
+          <Lottie options={defaultOptions} height={400} width={400} />
         </center>
       ) : (
         content && (

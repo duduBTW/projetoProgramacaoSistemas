@@ -107,6 +107,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
     flex: 1,
+    position: "sticky",
+    top: 60,
     "& button": {
       margin: "0px 0px 10px 15px",
     },
