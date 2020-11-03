@@ -1,26 +1,21 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
-import { Grid, Typography, Slide, CircularProgress } from "@material-ui/core";
-import Lottie from "react-lottie";
-import {
-  makeStyles,
-  Button,
-  TextField,
-  TablePagination,
-  IconButton,
-} from "@material-ui/core";
-import { useForm, Controller } from "react-hook-form";
+import { Typography } from "@material-ui/core";
+import { makeStyles, Button, IconButton } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import SearchIcon from "@material-ui/icons/Search";
 import DrawerFiltros from "./DrawerFiltros";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Form from "../Form";
 import Crud from "../Crud";
 import loadingProsesmt from "../../assets/loadingProsesmt.json";
+import Lottie from "react-lottie";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "10px 30px",
     display: "flex",
+    position: "relative",
     flexDirection: "column",
     justifyContent: "center",
     width: "80%",
@@ -90,11 +85,12 @@ const useStyles = makeStyles((theme) => ({
       margin: "0px 20px 15px 0px",
       flexDirection: "row",
     },
+    margin: "0px 10px",
     "& button": {
       margin: "10px",
     },
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -109,15 +105,28 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   iconButton: {
-    marginLeft: 15,
+    // marginLeft: 15,
   },
 }));
 
+interface SearchProps {
+  search?: any;
+  crudServer?: any;
+  title?: any;
+  fieldsFilter?: any;
+  fieldsSearchMain?: any;
+  fieldsContent?: any;
+  loading?: any;
+  content?: any;
+  edit?: any;
+  count?: any;
+  extraButtons?: any;
+  crudProps?: any;
+}
+
 export default function Search({
-  classGrid,
   search,
-  label,
-  name,
+  crudServer = false,
   title,
   fieldsFilter,
   fieldsSearchMain,
@@ -125,15 +134,16 @@ export default function Search({
   loading,
   content,
   edit = false,
+  count,
   extraButtons,
   crudProps,
-}) {
+}: SearchProps) {
   const classes = useStyles();
 
   const { register, handleSubmit, control, errors, formState } = useForm();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (open: boolean) => (event: any) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -152,15 +162,14 @@ export default function Search({
   return (
     <div>
       {/* <div className={classes.root}></div> */}
-      <Paper elevation={2}>
-        {title && (
-          <Typography style={{ padding: "20px 20px 0px 20px" }} variant="h5">
-            {title}
-          </Typography>
-        )}
-
+      <Typography style={{ padding: "0px 0px 10px 0px" }} variant="body1">
+        <b>{title}</b>
+      </Typography>
+      <Paper style={{ marginBottom: 20 }} elevation={2}>
         <div className={classes.header}>
           <Form
+            defaultValues={{}}
+            title={null}
             onSubmit={search}
             classBody={classes.rootBody}
             classForm={classes.rootForm}
@@ -200,7 +209,6 @@ export default function Search({
                 label="Filtros"
                 formState={formState}
                 fields={fieldsFilter}
-                select={true}
               />
             )}
           </div>
@@ -208,20 +216,21 @@ export default function Search({
       </Paper>
       {/* <div style={{ disply: "flex", overflow: "hidden" }}> */}
       {loading ? (
+        // @ts-ignore
         <center>
           <br />
           <Lottie options={defaultOptions} height={400} width={400} />
+          {/* 
+          //@ts-ignore */}
         </center>
-      ) : (
-        content && (
-          <Crud
-            {...crudProps}
-            edit={edit}
-            content={content}
-            schema={fieldsContent}
-          />
-        )
-      )}
+      ) : content ? (
+        <Crud
+          edit={edit}
+          content={content}
+          schema={fieldsContent}
+          {...crudProps}
+        />
+      ) : null}
     </div>
   );
 }

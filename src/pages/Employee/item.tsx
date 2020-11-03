@@ -12,13 +12,14 @@ import React, { useEffect } from "react";
 import { instance } from "services/api";
 import { useFetch } from "services/hook.js/useFetch";
 import { employeeItem } from "./employee";
-import ItemContainer from "../../components/Item/ItemContainer"
+import ItemContainer from "../../components/Item/ItemContainer";
+import EpiEntregues from "components/Epi/Employee/EpiEntregues";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       margin: "10px 10px 0px 10px",
-      display: "flex"
+      display: "flex",
     },
     document: {
       display: "flex",
@@ -58,29 +59,35 @@ export default function Item({ match }: { match: any }) {
     setValue(newValue);
   };
 
-  const {data} = useFetch<employeeItem>(`/safety/epi/employee?id=${id}`)
+  const { data } = useFetch<employeeItem>(`/safety/epi/employee?id=${id}`);
 
-  const dt = <>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-          >
-            <Tab label="EPI's em uso" />
-            <Tab label="EPI's entregues" />
-          </Tabs>
-          <TabPanel value={value} index={0}>
-            <div>
-              <EpiUsados id={id} />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={1}></TabPanel>
-  </>
+  const dt = (
+    <>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+      >
+        <Tab label="EPI's em uso" />
+        <Tab label="EPI's entregues" />
+      </Tabs>
+      <TabPanel value={value} index={0}>
+        <div>
+          <EpiUsados id={id} />
+        </div>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <div>
+          <EpiEntregues id={id} />
+        </div>
+      </TabPanel>
+    </>
+  );
 
   return data ? (
-        <ItemContainer itemContainer={dt} itemDetails={<Header content={data} />} />
+    <ItemContainer itemContainer={dt} itemDetails={<Header content={data} />} />
   ) : (
     <div>Carregando...</div>
   );

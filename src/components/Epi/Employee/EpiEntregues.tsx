@@ -18,14 +18,12 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 // import { Guia } from "../ficha";
 import {
   Button,
-  Checkbox,
   FormControlLabel,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
-import { CheckBox } from "@material-ui/icons";
 import { useFetch } from "services/hook.js/useFetch";
 import ModalConfirm from "components/Crud/ModalConfirm";
 import { instance } from "services/api";
@@ -137,20 +135,20 @@ export interface ChangeStatus {
   status?: string;
 }
 
-export default function EpiUsados({ id }: EpiUsadosProps) {
+export default function EpiEntregues({ id }: EpiUsadosProps) {
   const trigger = useScrollTrigger();
   const classes = useStyles();
 
   // const [data, setContent] = React.useState<Array<Guia>>();
   const [openModalConfirm, setOpenModalConfirm] = React.useState(false);
   const [expanded, setExpanded] = React.useState<Array<number>>([]);
-  const [item, setItem] = React.useState<Array<number>>([]);
-  const [list, setList] = React.useState<Array<number>>([]);
+  const [item, setItem] = React.useState<Array<number> | null>(null);
+  const [list, setList] = React.useState<Array<number> | null>(null);
   const [loadingButton, setLoadingButton] = React.useState<boolean>(false);
-  const enabled: boolean = list.length | item.length ? false : true;
+  const enabled: boolean = list && list.length | item?.length ? false : true;
 
   const { data } = useFetch<Array<Guia>>(
-    `/safety/epi/employee/getEpi?id=${id}&status=1`
+    `/safety/epi/employee/getEpi?id=${id}&status=2`
   );
   const handleExpandClick = (index: number) => {
     const exists = expanded.includes(index);
@@ -197,51 +195,6 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
 
   return (
     <div>
-      <ModalConfirm
-        description=""
-        setOpenModal={() => setOpenModalConfirm(true)}
-        confirmar={() => {
-          let dataDevolver: Array<ChangeStatus> = [];
-          item.map((itemItem) => {
-            var data: ChangeStatus = {
-              type: "epi",
-              id: itemItem.toString(),
-              status: "2",
-            };
-
-            dataDevolver = [...dataDevolver, data];
-          });
-
-          setOpenModalConfirm(false);
-          setLoadingButton(true);
-
-          console.log("dataDevolver", dataDevolver);
-          instance
-            .put("/safety/epi/Status", dataDevolver)
-            .then((response) => {
-              console.log("reponseUwuuuuu", response.data);
-              setLoadingButton(false);
-            })
-            .then((error) => setLoadingButton(false));
-        }}
-        cancelar={() => setOpenModalConfirm(false)}
-        openModal={openModalConfirm}
-        title="Deseja devolver essa ficha/EPI?"
-      />
-      <div className={classes.buttons}>
-        {/* <Button disabled={enabled} variant="contained" color="primary">
-          Trocar
-        </Button> */}
-        <LoadingButton
-          loading={loadingButton}
-          onClick={() => setOpenModalConfirm(true)}
-          disabled={enabled}
-          variant="contained"
-          color="primary"
-        >
-          Devolver
-        </LoadingButton>
-      </div>
       {data ? (
         data.length > 0 ? (
           data.map((guia, index) => (
@@ -288,22 +241,6 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
               </Typography>
             </CardContent> */}
                 <CardActions disableSpacing>
-                  <FormControlLabel
-                    className={classes.checkbox}
-                    control={
-                      <Checkbox
-                        checked={list.includes(
-                          Number(guia.EpiGuiaHeader.FIECODIGO)
-                        )}
-                        onChange={() =>
-                          handleChangeList(Number(guia.EpiGuiaHeader.FIECODIGO))
-                        }
-                        name="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Selecionar todos"
-                  />
                   <IconButton
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded.includes(index),
@@ -357,19 +294,6 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
                             </Typography>
                           </div>
                         </div>
-                        <div className={classes.checkboxItem}>
-                          <Checkbox
-                            checked={
-                              list.includes(Number(detalhes.FIECODIGO)) ||
-                              item.includes(Number(detalhes.FIDCODIGO))
-                            }
-                            onChange={() =>
-                              handleChangeItem(Number(detalhes.FIDCODIGO))
-                            }
-                            name="checkedB"
-                            color="primary"
-                          />
-                        </div>
                       </Card>
                     ))}
                   </CardContent>
@@ -379,16 +303,17 @@ export default function EpiUsados({ id }: EpiUsadosProps) {
           ))
         ) : (
           <div className={classes.nothingContainer}>
-            <Typography variant="h4">Nenhum EPI em uso</Typography>
+            <Typography variant="h4">Nenhum EPI entregue</Typography>
             {/* 
-        //@ts-ignore */}
+            //@ts-ignore */}
             <center>
               <Typography className={classes.subTitle} variant="subtitle1">
-                Você pode entregar um EPI clicando em <b>"Criar Ficha"</b> no
-                menu.
+                Caso o funcionário não esteja mais usando um equipamento
+                selecione a opção <b>"Devolver"</b> ou <b>"Trocar"</b> na aba{" "}
+                <b>"EPI'S EM USO"</b>{" "}
               </Typography>
               {/* 
-        //@ts-ignore */}
+            //@ts-ignore */}
             </center>
           </div>
         )

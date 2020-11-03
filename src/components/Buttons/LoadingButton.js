@@ -7,11 +7,12 @@ import CheckIcon from "@material-ui/icons/Check";
 const styles = (theme) => ({
   button: {
     margin: theme.spacing.unit,
+    zIndex: "99",
   },
 });
 
 const LoadingButton = (props) => {
-  const { classes, loading, done, ...other } = props;
+  const { classes, loading, done, disabled, ...other } = props;
 
   if (loading) {
     return (
@@ -23,7 +24,7 @@ const LoadingButton = (props) => {
       />
     );
   } else {
-    return <Button className={classes.button} {...other} />;
+    return <Button disabled={disabled} className={classes.button} {...other} />;
   }
 };
 

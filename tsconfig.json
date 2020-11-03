@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
     "checkJs": false,
     "jsx": "react",
@@ -21,7 +21,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "baseUrl": "./src/",
-    "strict": true
+    "strict": false
   },
   "exclude": [
     "node_modules"

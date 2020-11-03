@@ -50,10 +50,16 @@ function TabPanel(props) {
   );
 }
 
+const genero = [
+  { label: "Masculino", cod: 1 },
+  { label: "Feminino", cod: 2 },
+];
+
 export default function FormularioFuncionario({ data, buttons, nextDados }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [content, setContent] = React.useState(null);
+  const [loadingSearch, setLoadingSearch] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -61,9 +67,11 @@ export default function FormularioFuncionario({ data, buttons, nextDados }) {
 
   const search = (data) => {
     console.log(data);
+    setLoadingSearch(true);
     instance
       .get(`/safety/epi/GetEmployeeWithEpis?Name=${data.Name}&Cpf=`)
       .then((response) => {
+        setLoadingSearch(false);
         setContent(response.data);
         console.log("response.data", response.data);
       });
@@ -160,16 +168,11 @@ export default function FormularioFuncionario({ data, buttons, nextDados }) {
               label: "Gênero",
               rules: { required: "Campo obrigatório" },
               select: true,
-              options: (
-                <>
-                  <MenuItem key={1} value={1}>
-                    Masculino
-                  </MenuItem>
-                  <MenuItem key={0} value={2}>
-                    Feminino
-                  </MenuItem>
-                </>
-              ),
+              options: genero.map((item) => (
+                <MenuItem key={1} value={item.cod}>
+                  {item.label}
+                </MenuItem>
+              )),
             },
             // {},
           ]}
@@ -180,7 +183,7 @@ export default function FormularioFuncionario({ data, buttons, nextDados }) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Search
-          loading={false}
+          loading={loadingSearch}
           search={search}
           content={content}
           crudProps={{ onEditClick: itemClick }}

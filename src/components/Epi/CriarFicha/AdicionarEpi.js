@@ -112,7 +112,12 @@ const AdicionarEpi = ({
   // }, []);
 
   const handleToggle = (value) => () => {
-    setChecked([...checked, value]);
+    if (checked.find((item) => item === value)) {
+      const newItem = checked.filter((item) => item !== value);
+      setChecked(newItem);
+    } else {
+      setChecked([...checked, value]);
+    }
   };
 
   const handleDrawer = (value) => {

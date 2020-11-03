@@ -1,10 +1,10 @@
 import React from "react";
 import { Controller } from "react-hook-form";
 import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from "date-fns/locale";
 
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
@@ -19,12 +19,13 @@ export default function InputDate({
   // classProp,
 }) {
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
       <Controller
         as={
           <KeyboardDatePicker
             fullWidth
             autoOk
+            invalidDateMessage="Data inválida"
             // error={!!errors}
             inputVariant="outlined"
             variant="inline"
