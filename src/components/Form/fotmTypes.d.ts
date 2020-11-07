@@ -31,6 +31,7 @@ interface SchemaProps {
   hidden?: boolean;
   value?: any;
   variant?: "filled" | "outlined" | "standard" | undefined;
+  row: number;
 }
 
 interface FormProps {

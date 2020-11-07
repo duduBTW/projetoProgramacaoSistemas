@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     "& h5": {
       margin: "20px 0px 10px 0px",
     },
-    marginTop: 20,
+    // marginTop: 20,
   },
   rootContent: {
     padding: "0px 20px",
@@ -42,32 +42,17 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     cursor: "pointer",
   },
-  fullWith: {
-    display: "table-row-group",
-    width: "100%",
-    // flexBasis: 1,
-    background: "blue",
-  },
 }));
-
-function resolve(obj, path) {
-  path = path.split(".");
-  var current = obj;
-  while (path.length) {
-    if (typeof current !== "object") return undefined;
-    current = current[path.shift()];
-  }
-  return current;
-}
 
 export default function Crud({
   content,
   title,
   schema,
-  onNewClick,
+  onNewClick = () => {},
   onEditClick = () => {},
   onDeleteClick = () => {},
   edit = false,
+  hide = false,
 }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -78,9 +63,9 @@ export default function Crud({
 
   return (
     <Paper elevation={2} className={classes.rootContent}>
-      <div className={classes.button}>
-        {title && <Typography variant="h5"> {title} </Typography>}
-        {onNewClick && (
+      {!hide && (
+        <div className={classes.button}>
+          <Typography variant="h5"> {title} </Typography>
           <Button
             variant="contained"
             color="secondary"
@@ -92,8 +77,9 @@ export default function Crud({
           >
             Novo
           </Button>
-        )}
-      </div>
+        </div>
+      )}
+
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -109,7 +95,7 @@ export default function Crud({
             </TableRow>
           </TableHead>
           <TableBody>
-            {content.slice(page * 10, page * 10 + 10).map((item, index) => (
+            {content.slice(page * 12, page * 12 + 12).map((item, index) => (
               <TableRow
                 className={edit ? classes.tableRow : {}}
                 // onClick={(e) =>
@@ -124,16 +110,16 @@ export default function Crud({
                 {schema.map((schameItem) => (
                   <>
                     <TableCell align="left">
-                      {/* {console.log(item[schameItem.content])} */}
-                      {/* {console.log(schameItem.content)} */}
-                      {resolve(item, schameItem.content)}
+                      {schameItem.format
+                        ? schameItem.formatFun(item[schameItem.content])
+                        : item[schameItem.content]}
                     </TableCell>
                   </>
                 ))}
                 <TableCell align="center" padding="checkbox">
                   <IconButton
                     onClick={(e) => {
-                      // e.stopPropagation();
+                      e.stopPropagation();
 
                       // setItemExcluir(item);
                       // setOpenModalConfirm(true);

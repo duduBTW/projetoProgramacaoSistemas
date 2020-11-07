@@ -16,16 +16,14 @@ export default function EpiItem({ match }) {
   return (
     <div>
       {data ? (
-        <ItemContainer paddingHeader={"15px"} itemContainer={
-          <Body id={id} data={data.historico} />
-        } 
-        itemDetails={
+        <ItemContainer
+          paddingHeader={"15px"}
+          itemContainer={<Body id={id} data={data.historico} />}
+          itemDetails={
             <>
-              <Header
-                data={data.header}
-              />
+              <Header epecodigo={id} data={data.header} />
             </>
-          } 
+          }
         />
       ) : (
         <CircularProgress />

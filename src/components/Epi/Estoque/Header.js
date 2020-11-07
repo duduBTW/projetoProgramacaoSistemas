@@ -22,35 +22,87 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Form from "components/Form";
 import DataShow from "components/Item/DataShow";
+import { instance } from "services/api";
+
+// export interface EpiGuiaInfos {
+//   descricao?: string;
+//   validade?: string;
+//   fornecedor?: string;
+//   processo?: string;
+//   cnpj?: string;
+//   ca?: string;
+//   epiid?: string;
+//   epecodigo?: string;
+//   quantidade?: string;
+//   quantidadeMin?: string;
+//   troca?: string;
+//   type?: number;
+// }
 
 // export default function Header({ name, quantidade, quantidadeMin, ca }) {
-export default function Header({data}) {
+export default function Header({ data, epecodigo }) {
   const [open, setOpen] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
 
+  const editStock = (dataNew) => {
+    console.log("dataNew", dataNew);
+    return new Promise((resolve) =>
+      instance
+        .put("/safety/epi/UpdateStock", {
+          descricao: dataNew.EPIDESCRICAO,
+          ca: dataNew.EPECA,
+          quantidade: dataNew.EPIQUANTIDADE,
+          quantidadeMin: dataNew.EPIQUANTIDADEMIN,
+          epecodigo,
+        })
+        .then(() => {
+          resolve();
+        })
+    );
+  };
+
   return (
-      <DataShow 
-        schema={[
-          [
-            {label: "Descrição", content: "EPIDESCRICAO"}
-          ], 
-          [
-            {label: "CA",content: "EPECA"}, 
-          ], 
-          [
-            {label: "Quantidade", content: "EPIQUANTIDADE"},
-          ], 
-          [
-            {label: "Quantidade Minima", content: "EPIQUANTIDADEMIN"},
-          ]]
-        } 
-        data={data}
-      />
-      );
-     
+    <DataShow
+      editSchema={[
+        {
+          lg: 12,
+          name: "EPIDESCRICAO",
+          label: "Descrição",
+          rules: { required: "Campo obrigatório" },
+          row: 4,
+        },
+        {
+          lg: 12,
+          name: "EPECA",
+          label: "CA",
+          rules: { required: "Campo obrigatório" },
+        },
+        {
+          lg: 12,
+          name: "EPIQUANTIDADE",
+          label: "Quantidade",
+          rules: { required: "Campo obrigatório" },
+        },
+        {
+          lg: 12,
+          name: "EPIQUANTIDADEMIN",
+          label: "Quantidade Minima",
+          rules: { required: "Campo obrigatório" },
+        },
+      ]}
+      schema={[
+        [{ label: "Descrição", name: "EPIDESCRICAO" }],
+        [{ label: "CA", name: "EPECA" }],
+        [{ label: "Quantidade", name: "EPIQUANTIDADE" }],
+        [{ label: "Quantidade Minima", name: "EPIQUANTIDADEMIN" }],
+      ]}
+      data={data}
+      onSubmitEdit={editStock}
+    />
+  );
 }
-//<AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} /> 
-//<AlertDialogSlide open={openAdd} setOpen={setOpenAdd} /> 
+//<AlertDialogType open={open} setOpen={setOpen} setOpenAdd={setOpenAdd} />
+//<AlertDialogSlide open={openAdd} setOpen={setOpenAdd} />
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

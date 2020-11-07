@@ -163,6 +163,8 @@ function FormBody({
                   !schemaItem.select &&
                   !schemaItem.date && (
                     <TextFieldWithError
+                      multiline={schemaItem.row || false}
+                      rows={schemaItem.row}
                       style={{ width: "100%" }}
                       errors={
                         index !== ""
